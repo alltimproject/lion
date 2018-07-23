@@ -126,8 +126,8 @@ class Home extends CI_Controller{
     $config['smtp_host']  = 'ssl://smtp.gmail.com';
     $config['smtp_port']  = '465';
     $config['smtp_timeout'] = '5';
-    $config['smtp_user']  = 'viz.ndinq@gmail.com';
-    $config['smtp_pass']  = 'haviz06142';
+    $config['smtp_user']  = 'lionairsystem@gmail.com';
+    $config['smtp_pass']  = 'lionais1234';
     $config['mail_type']  = 'html';
     $config['charset']     = 'iso-8859-1';
     // $config['charset']     = 'utf-8';
