@@ -22,11 +22,11 @@
 
     <!-- Main content -->
      <div class="row">
-         <div class="col-lg-6 col-6">
+         <div class="col-lg-6 col-6 animated bounceInLeft">
            <!-- small box -->
            <div class="small-box bg-primary">
              <div class="inner">
-               <h3>150</h3>
+               <h3><?= $refund_success ?></h3>
 
                <p>Refund success</p>
              </div>
@@ -36,13 +36,13 @@
            </div>
          </div>
 
-         <div class="col-lg-6 col-6">
+         <div class="col-lg-6 col-6 animated bounceInRight">
            <!-- small box -->
            <div class="small-box bg-warning">
              <div class="inner">
-               <h3>150</h3>
+               <h3><?= $refund_cancel ?></h3>
 
-               <p>Refund Proses</p>
+               <p>Refund Cancel</p>
              </div>
              <div class="icon">
                <i class="ion ion-bag"></i>
@@ -54,7 +54,7 @@
       <div class="row">
           <div class="col-12">
             <!-- Custom Tabs -->
-            <div class="card">
+            <div class="card animated fadeInUp">
               <div class="card-header d-flex p-0">
                 <h3 class="card-title p-3 ">Data Refund</h3>
                 <ul class="nav nav-pills ml-auto p-2">
@@ -65,9 +65,10 @@
               <div class="card-body">
                 <div class="tab-content">
                   <div class="tab-pane active" id="tab_1">
-
                     <div id="refund-success"></div>
-                  </div>
+                    <div id="refund-success-detail"></div>
+
+                </div>
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="tab_2">
                     <div id="refund-proses"></div>
@@ -91,6 +92,8 @@
     <script src="<?= base_url().'assets/js/jquery.js' ?>"></script>
     <script type="text/javascript">
     refundsuccess();
+    refundproses();
+
 
 
       function refundsuccess()
@@ -117,10 +120,37 @@
       }
 
 
+      $(document).on('click', '.btn-detail', function(){
+        $('#refund-success').hide('slow', function(){
+            $('#refund-success-detail').show('slow');
+        });
+
+        var data = $('.form-detail').serialize();
+
+        $.ajax({
+          type:"POST",
+          url:'<?= base_url('adm/refund/success_detail')  ?> ',
+          data:data,
+          success:function(data){
+
+            $('#refund-success-detail').html(data);
+          }
+        });
+
+        $(document).on('click', '.btn-back', function(){
+          $('#refund-success-detail').hide('slow', function(){
+            $('#refund-success').show('slow');
+          });
+
+          refundsuccess();
+        });
 
 
 
 
 
+
+
+      });
 
     </script>

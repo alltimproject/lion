@@ -6,6 +6,7 @@ class Refund extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    $this->load->helper('tanggal');
     $this->load->helper('acakhuruf');
     $this->load->model('admin/m_refund');
     //Codeigniter : Write Less Do More
@@ -36,7 +37,9 @@ class Refund extends CI_Controller{
   {
     $data['title'] = 'Refund';
     $this->load->view('admin/include/header', $data);
-    $this->load->view('admin/v_refund');
+    $data['refund_success'] = $this->m_refund->refund_success()->num_rows();
+    $data['refund_cancel']  = $this->m_refund->refund_proses()->num_rows();
+    $this->load->view('admin/v_refund', $data);
     $this->load->view('admin/include/footer');
   }
 
@@ -368,7 +371,7 @@ class Refund extends CI_Controller{
     $selectRefund = $this->m_refund->refund_success();
     $output = '
           <div class="card">
-             <div class="card-header">
+             <div class="card-header bg-primary">
                <h3 class="card-title">Data refund success</h3>
              </div>
 
@@ -383,24 +386,45 @@ class Refund extends CI_Controller{
                    <th>Total refund</th>
                    <th>Status refund</th>
                    <th>Konfirmasi oleh</th>
+                   <th>Opsi</th>
                    <th></th>
                  </tr>
       ';
-    $no = 1;
-    foreach($selectRefund->result() as $key){
-      $output .= '
-                <tr>
-                  <td>'.$no++.'</td>
-                  <td>'.$key->no_refund.'</td>
-                  <td>'.$key->tgl_refund.'</td>
-                  <td>'.$key->kd_booking.'</td>
-                  <td>'.$key->refund_email.'</td>
-                  <td>'.$key->total_refund.'</td>
-                  <td>'.$key->refund_status.'</td>
-                  <td>'.$key->confirm_by.'</td>
-                </tr>
-      ';
-    }
+      if($selectRefund->num_rows() > 0 ){
+
+        $no = 1;
+        foreach($selectRefund->result() as $key){
+          if($key->refund_status == "verify"){
+            $status = 'Berhasil';
+          }
+          $output .= '
+                    <tr>
+                      <td>'.$no++.'</td>
+                      <td>'.$key->no_refund.'</td>
+                      <td>'.$key->tgl_refund.'</td>
+                      <td>'.$key->kd_booking.'</td>
+                      <td>'.$key->refund_email.'</td>
+                      <td>Rp.'.number_format($key->total_refund) .'</td>
+                      <td>'.$key->refund_status.'</td>
+                      <td>'.$key->confirm_by.'</td>
+                      <td>
+                        <form class="form-detail" method="post">
+                            <input type="hidden" id="'.$key->no_refund.'" name="no_refund" value="'.$key->no_refund.'">
+                            <input type="hidden" id="'.$key->refund_status.'" name="status_refund" value="'.$key->refund_status.'">
+                            <a href="javascript:;" class="btn btn-info btn-xs btn-detail"><i class="fa fa-info"></i></a>
+                        </form>
+                       </td>
+                    </tr>
+          ';
+        }
+      }else{
+        $output .= '
+                    <tr>
+                      <td colspan="8" class="text-center"><h4> Data Tidak Ada </h4> </td>
+                    </tr>
+        ';
+      }
+
 
    $output .= '
           </table>
@@ -415,11 +439,12 @@ class Refund extends CI_Controller{
   function proses_refund()
   {
 
+
     $selectproses = $this->m_refund->refund_proses();
     $output = '
           <div class="card">
-             <div class="card-header">
-               <h3 class="card-title">Data refund success</h3>
+             <div class="card-header bg-warning">
+               <h3 class="card-title">Data refund Cancel</h3>
              </div>
 
              <div class="card-body p-0">
@@ -437,22 +462,29 @@ class Refund extends CI_Controller{
                  </tr>
       ';
 
-    $no = 1;
-    foreach($selectproses->result() as $key){
+    if($selectproses->num_rows() > 0 ){
+      $no = 1;
+      foreach($selectproses->result() as $key){
+        $output .= '
+                  <tr>
+                    <td>'.$no++.'</td>
+                    <td>'.$key->no_refund.'</td>
+                    <td>'.$key->tgl_refund.'</td>
+                    <td>'.$key->kd_booking.'</td>
+                    <td>'.$key->refund_email.'</td>
+                    <td>Rp '. number_format($key->total_refund) .'</td>
+                    <td>'.$key->refund_status.'</td>
+                    <td>'.$key->confirm_by.'</td>
+                  </tr>
+        ';
+      }
+    }else{
       $output .= '
-                <tr>
-                  <td>'.$no++.'</td>
-                  <td>'.$key->no_refund.'</td>
-                  <td>'.$key->tgl_refund.'</td>
-                  <td>'.$key->kd_booking.'</td>
-                  <td>'.$key->refund_email.'</td>
-                  <td>'.$key->total_refund.'</td>
-                  <td>'.$key->refund_status.'</td>
-                  <td>'.$key->confirm_by.'</td>
-                </tr>
+                  <tr>
+                    <td colspan="8" class="text-center"><h4> Data Tidak Ada </h4> </td>
+                  </tr>
       ';
     }
-
    $output .= '
           </table>
         </div>
@@ -460,7 +492,97 @@ class Refund extends CI_Controller{
       </div>
    ';
 
+
     echo $output;
+  }
+
+  function success_detail()
+  {
+    $no_refund = $this->input->post('no_refund');
+    $status    = $this->input->post('status_refund');
+
+    $selectPenumpang   = $this->m_refund->refund_penumpang($no_refund);
+    $selectPenerbangan = $this->m_refund->refund_penerbangan($no_refund);
+
+    $output = '
+    <div class="row">
+
+      <div class="col-md-5">
+          <div class="card">
+              <div class="card-header bg-danger">
+                <h3 class="card-title">Penumpang</h3>
+              </div>
+              <div class="card-body p-0">
+                <table class="table">
+                  <tr>
+                    <th style="width: 10px">#</th>
+                    <th>No. Tiket</th>
+                    <th>Nama Penumpang</th>
+                  </tr>
+      ';
+      $no = 1;
+      foreach($selectPenumpang->result() as $key_penumpang){
+        $output .= '
+              <tr>
+                <td>'.$no++.' </td>
+                <td>'.$key_penumpang->no_tiket.'</td>
+                <td>'.$key_penumpang->nama_pessenger.'</td>
+
+              </tr>
+        ';
+      }
+      $output .= '
+                </table>
+              </div>
+            </div>
+      </div>
+      ';
+
+      $output .= '
+      <div class="col-md-2 text-center">
+        <img src="'.base_url('assets/img/arah.png').' " class="img-responsive" alt="" width="180px;">
+      </div>
+      ';
+
+      $output .= '
+      <div class="col-md-5">
+      <div class="card">
+          <div class="card-header bg-danger">
+            <h3 class="card-title">Penerbangan</h3>
+          </div>
+          <div class="card-body p-0">
+            <table class="table">
+              <tr>
+                <th>No. Penerbangan</th>
+                <th>Kota Asal</th>
+                <th>Kota Tujuan </th>
+              </tr>
+      ';
+
+      foreach($selectPenerbangan->result() as $key_penerbangan){
+        $output .= '
+                <tr>
+                  <td>'.$key_penerbangan->no_penerbangan.'</td>
+                  <td>'.$key_penerbangan->kota_asal.'</td>
+                  <td>'.$key_penerbangan->kota_tujuan.' </td>
+                </tr>
+        ';
+      }
+
+      $output .= '
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+     ';
+
+     $output .= ' <a href="javascript:;" class="btn btn-danger btn-back"><i class="fa fa-arrow-circle-left fa-4x" > <i></a>';
+
+
+
+     echo $output;
   }
 
 

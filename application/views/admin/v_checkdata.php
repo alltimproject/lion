@@ -185,6 +185,7 @@ foreach ($checkdataid as $key) {
                   <input type="hidden" name="nama_belakang" value="<?= $nama_belakang ?>">
                   <input type="hidden" name="namalengkap" value="<?= $nama_depan.' '.$nama_belakang ?>">
                   <input type="hidden" name="email" value="<?= $email_user ?>">
+                  <input type="hidden" name="petugas" value="<?= $this->session->userdata('email') ?>">
                   <input type="submit" name="confirmrefundmatchpener" class="btn btn-info" value="KONFIRMASI REFUND" onclick="return confirm('Anda yaking ingin Mengkonfirmasi tiket ini ?')" style="width:50%" >
                 </form>
               <?php }else if($jumlahdatarefund == $jumlahdatapessenger && $jumlahrefunddetail < $jumlahdetailpener){ ?>
@@ -223,6 +224,7 @@ foreach ($checkdataid as $key) {
                   <input type="hidden" name="nama_belakang" value="<?= $nama_belakang ?>">
                   <input type="hidden" name="nama_depan" value="<?= $nama_depan ?>">
                   <input type="hidden" name="email" value="<?= $email_user ?>">
+                  <input type="hidden" name="petugas" value="<?= $this->session->userdata('email') ?>">
                   <input type="submit" name="confirmrefund" class="btn btn-warning" value="KONFIRMASI REFUND" onclick="return confirm('Anda yaking ingin Mengkonfirmasi tiket ini ?')" style="width:50%" >
                 </form>
 
@@ -257,7 +259,7 @@ foreach ($checkdataid as $key) {
                   <?php endforeach;  ?>
 
                   <!-- acakhuruf -->
-                  <input type="text" name="acakhuruf" value="<?= 'BO'.acakhuruf(4) ?>">
+                  <input type="hidden" name="acakhuruf" value="<?= 'BO'.acakhuruf(4) ?>">
 
                   <input type="hidden" name="total" value="<?= $refund_total ?>">
                   <input type="hidden" name="kd_booking" value="<?= $kd_booking ?>">
@@ -266,6 +268,7 @@ foreach ($checkdataid as $key) {
                   <input type="hidden" name="nama_belakang" value="<?= $nama_belakang ?>">
                   <input type="hidden" name="nama_depan" value="<?= $nama_depan ?>">
                   <input type="hidden" name="email" value="<?= $email_user ?>">
+                  <input type="hidden" name="petugas" value="<?= $this->session->userdata('email') ?>">
                   <input type="submit" name="confirmrefund" class="btn btn-danger" value="KONFIRMASI REFUND" onclick="return confirm('Anda yaking ingin Mengkonfirmasi tiket ini ?')" style="width:50%" >
                 </form>
               <?php }  //end if ?>

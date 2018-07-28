@@ -282,6 +282,7 @@ class M_refund extends CI_Model{
 
   function updatePessenger()
   {
+    $petugas  = $this->input->post('petugas');
     $no_tiket = $this->input->post('no_tiket');
     $norefund = $this->input->post('no_refund');
     $data = array(
@@ -289,7 +290,8 @@ class M_refund extends CI_Model{
     );
     $data2 = array(
       'refund_status' => 'Verify',
-      'secure_code'   => md5($norefund)
+      'secure_code'   => md5($norefund),
+      'confirm_by'    => $petugas
     );
     for($i=0; $i<count($no_tiket); $i++)
     {
@@ -494,6 +496,7 @@ class M_refund extends CI_Model{
 
   function updatePessengermatch()
   {
+    $petugas   = $this->input->post('petugas');
     $acakhuruf = $this->input->post('acakhuruf');
     //update passenger
     $no_tiket = $this->input->post('no_tiket');
@@ -503,7 +506,8 @@ class M_refund extends CI_Model{
     );
     $data2 = array(
       'refund_status' => 'Verify',
-      'secure_code'   => md5($norefund)
+      'secure_code'   => md5($norefund),
+      'confirm_by'    => $petugas
     );
     for($i=0; $i<count($no_tiket); $i++)
     {
@@ -516,19 +520,37 @@ class M_refund extends CI_Model{
 //---------------------------------------------------------------------
   function refund_success()
   {
-    return $this->db->get('tb_refund');
+   $this->db->select('*');
+   $this->db->from('tb_refund');
+   $this->db->where('refund_status','verify');
+   return $this->db->get();
   }
   function refund_proses()
   {
     $this->db->select('*');
     $this->db->from('tb_refund');
-    $this->db->where('refund_status','proses');
+    $this->db->where('refund_status','notverify');
     return $this->db->get();
   }
 
+  function refund_penumpang($no_refund)
+  {
+    $this->db->select('*');
+    $this->db->from('tb_refund_pessenger');
+    $this->db->join('tb_pessenger', 'tb_pessenger.no_tiket = tb_refund_pessenger.no_tiket');
+    $this->db->where('tb_refund_pessenger.no_refund', $no_refund);
+    //$this->db->where('tb_pessenger.kd_booking', $no_refund);
+    return $this->db->get();
+  }
 
-
-
+  function refund_penerbangan($no_refund)
+  {
+    $this->db->select('*');
+    $this->db->from('tb_refund_detail');
+    $this->db->join('tb_penerbangan','tb_penerbangan.no_penerbangan = tb_refund_detail.no_penerbangan');
+    $this->db->where('tb_refund_detail.no_refund', $no_refund);
+    return $this->db->get();
+  }
 
 
 }

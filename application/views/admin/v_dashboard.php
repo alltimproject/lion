@@ -29,9 +29,9 @@
                 <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-envelope-o"></i></span>
 
                 <div class="info-box-content">
-                  <span class="info-box-text">Refund Today's</span>
+                  <span class="info-box-text">Total Refund</span>
                   <span class="info-box-number">
-                    <div id="showalljumlahdata_refund"></div>
+                    <div id="showalljumlahdata_refund">1</div>
 
                   </span>
                 </div>
@@ -139,7 +139,6 @@
                  <h3 class="card-title card-success"><i class="fa fa-user"></i> Data Refund</h3>
                  <button class="btn btn-danger" id="jumlahverify_refund"></button>
                  </div>
-                 <h6 style="color:green;" >STATUS : VERIFIKASI BERHASIL</h6>
                <br>
                  <table class="table table-hover table-striped">
                   <thead>
@@ -158,10 +157,9 @@
               </div>
               <div class="col-md-6">
                 <div class="d-flex justify-content-between">
-                <h3 class="card-title card-success"><i class="fa fa-user"></i> Data Refund</h3>
+                <h3 class="card-title card-success"><i class="fa fa-user"></i> Data Reschedule</h3>
                 <button class="btn btn-danger" id="">a</button>
                 </div>
-                <h6 style="color:green;" >STATUS : VERIFIKASI BERHASIL</h6>
                     <br>
                  <table class="table table-hover table-striped">
                   <thead>
