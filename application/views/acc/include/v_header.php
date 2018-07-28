@@ -171,6 +171,18 @@
            </a>
          </li>
 
+         <li class="nav-header">KELOLA USER</li>
+         <li class="nav-item">
+           <li class="nav-item">
+             <a href="<?= base_url('acc/petugas') ?>" class="nav-link">
+               <i class="nav-icon fa fa-circle-o"></i>
+               <p>
+                 KELOLA PETUGAS
+                 <span class="badge badge-info right"></span>
+               </p>
+             </a>
+           </li>
+
 
 
 

@@ -12,11 +12,11 @@ class Petugas extends CI_Controller{
   function index()
   {
     $data['title'] = 'Kelola petugas';
-    $this->load->view('admin/include/header', $data);
+    $this->load->view('acc/include/v_header', $data);
 
-    $this->load->view('admin/v_petugas');
+    $this->load->view('acc/v_petugas');
 
-    $this->load->view('admin/include/footer');
+    $this->load->view('acc/include/v_footer');
   }
 
 }
