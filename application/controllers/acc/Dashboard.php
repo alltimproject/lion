@@ -38,11 +38,11 @@ class Dashboard extends CI_Controller{
 
     $from1 = date('Y-m-d 00:00:00', strtotime($from) );
     $from2 = date('Y-m-d 23:59:59', strtotime($to));
-    
+
     $select = $this->m_dashboard->pertanggal_laporan($from1,$from2);
 
-
       $output = '
+      <center><a href="'.base_url('acc/laporan/pertanggal?from='.$from1.'&&to='.$from2.' ').'" target="_blank" class="btn btn-info btn-xs"><i class="fa fa-print"></i></a></center>
       <div class="table-responsive mailbox-messages animated zoomIn">
         <table class="table table-hover table-striped">
             <tr>
@@ -65,7 +65,6 @@ class Dashboard extends CI_Controller{
             </tr>
         ';
         }
-
         $output .= '
             </table>
           </div>

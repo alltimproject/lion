@@ -88,8 +88,8 @@
                   </div>
                   <div class="col-md-4 text-center">
                     <div class="form-group">
-
                       <a href="javascript:;" class="btn btn-info btn-xs btn-cari"><i class="fa fa-search"></i></a>
+                      <a href="<?= base_url('acc/dashboard')  ?> " class="btn btn-info btn-xs"><i class="fa fa-refresh"></i> </a> 
                     </div>
                   </div>
 
