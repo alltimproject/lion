@@ -199,6 +199,8 @@ class M_refund extends CI_Model{
   {
     $kd_booking = $this->input->post('kd_booking');
     $no_refund  = $this->input->post('no_refund');
+    $petugas    = $this->input->post('petugas');
+
     //---------------data 1 -----------------------
     $data = array( 'status' => 'RFN');
     $where = array('kd_booking' => $kd_booking);
@@ -206,7 +208,8 @@ class M_refund extends CI_Model{
     $where2 = array('no_refund' => $no_refund);
     $data2  = array(
       'refund_status' => 'Verify',
-      'secure_code'   => md5($no_refund)
+      'secure_code'   => md5($no_refund),
+      'confirm_by'    => $petugas
     );
     //---------------------------------------------
     $this->db->where($where);
@@ -511,7 +514,17 @@ class M_refund extends CI_Model{
     $this->db->update('tb_refund',$data2 );
   }
 //---------------------------------------------------------------------
-
+  function refund_success()
+  {
+    return $this->db->get('tb_refund');
+  }
+  function refund_proses()
+  {
+    $this->db->select('*');
+    $this->db->from('tb_refund');
+    $this->db->where('refund_status','proses');
+    return $this->db->get();
+  }
 
 
 

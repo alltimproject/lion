@@ -37,12 +37,12 @@ class Admin extends CI_Controller{
       }
       $session = array(
         'email' => $email,
-        'level' => $status,
+        'level' => $level,
         'login' => 1
       );
       $this->session->set_userdata($session);
 
-      if($level == 'admin'){
+      if($level == 'admin' || $level == 'petugas' ){
         $this->session->set_flashdata('notifadmin', 'Selamat datang '.$email);
         redirect('adm/dashboard');
 

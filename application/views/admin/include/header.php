@@ -197,6 +197,20 @@
                 </a>
               </li>
 
+              <?php if($this->session->userdata('level') == 'admin'): ?>
+              <li class="nav-header">KELOLA USER</li>
+              <li class="nav-item">
+                <li class="nav-item">
+                  <a href="<?= base_url('adm/petugas') ?>" class="nav-link">
+                    <i class="nav-icon fa fa-circle-o"></i>
+                    <p>
+                      KELOLA PETUGAS
+                      <span class="badge badge-info right">2</span>
+                    </p>
+                  </a>
+                </li>
+              <?php endif ?>
+
 
               <li class="nav-item" style="padding-top:80px;">
                 <li class="nav-item bg-danger">

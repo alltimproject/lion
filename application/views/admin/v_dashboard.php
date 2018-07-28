@@ -148,6 +148,8 @@
                       <th style="font-size:60%;">Tanggal Refund</th>
                       <th style="font-size:60%;">Kode Booking Lama</th>
                       <th style="font-size:60%;">Email</th>
+                      <th style="font-size:60%;">Confirm by</th>
+
                       <th style="font-size:60%;"></th>
                     </tr>
                   </thead>
@@ -489,6 +491,7 @@
                       '<td style="font-size:70%;">'+value.tgl_refund+'</td>'+
                       '<td style="font-size:70%;">'+value.kd_booking+'</td>'+
                       '<td style="font-size:70%;">'+value.refund_email+'</td>'+
+                      '<td style="font-size:70%;">'+value.confirm_by+'</td>'+
                       '<td>'+
                         '<a class="btn btn-info btn-xs" href="javascript:;"><i class=""></i>  </a>'+
                       '</td>'+

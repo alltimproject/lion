@@ -359,12 +359,108 @@ class Refund extends CI_Controller{
 
                   redirect(base_url('adm/dashboard'));
               }
+            }
+          }
 
+  //--------------------------------------------------------------------------------------------------
+  function success_refund()
+  {
+    $selectRefund = $this->m_refund->refund_success();
+    $output = '
+          <div class="card">
+             <div class="card-header">
+               <h3 class="card-title">Data refund success</h3>
+             </div>
 
+             <div class="card-body p-0">
+               <table class="table table-condensed">
+                 <tr>
+                   <th>No</th>
+                   <th>No. refund</th>
+                   <th>Tanggal refund</th>
+                   <th>Kode booking</th>
+                   <th>Email Pengaju</th>
+                   <th>Total refund</th>
+                   <th>Status refund</th>
+                   <th>Konfirmasi oleh</th>
+                   <th></th>
+                 </tr>
+      ';
+    $no = 1;
+    foreach($selectRefund->result() as $key){
+      $output .= '
+                <tr>
+                  <td>'.$no++.'</td>
+                  <td>'.$key->no_refund.'</td>
+                  <td>'.$key->tgl_refund.'</td>
+                  <td>'.$key->kd_booking.'</td>
+                  <td>'.$key->refund_email.'</td>
+                  <td>'.$key->total_refund.'</td>
+                  <td>'.$key->refund_status.'</td>
+                  <td>'.$key->confirm_by.'</td>
+                </tr>
+      ';
     }
 
+   $output .= '
+          </table>
+        </div>
 
+      </div>
+   ';
 
+    echo $output;
+  }
+
+  function proses_refund()
+  {
+
+    $selectproses = $this->m_refund->refund_proses();
+    $output = '
+          <div class="card">
+             <div class="card-header">
+               <h3 class="card-title">Data refund success</h3>
+             </div>
+
+             <div class="card-body p-0">
+               <table class="table table-condensed">
+                 <tr>
+                   <th>No</th>
+                   <th>No. refund</th>
+                   <th>Tanggal refund</th>
+                   <th>Kode booking</th>
+                   <th>Email Pengaju</th>
+                   <th>Total refund</th>
+                   <th>Status refund</th>
+                   <th>Konfirmasi oleh</th>
+                   <th></th>
+                 </tr>
+      ';
+
+    $no = 1;
+    foreach($selectproses->result() as $key){
+      $output .= '
+                <tr>
+                  <td>'.$no++.'</td>
+                  <td>'.$key->no_refund.'</td>
+                  <td>'.$key->tgl_refund.'</td>
+                  <td>'.$key->kd_booking.'</td>
+                  <td>'.$key->refund_email.'</td>
+                  <td>'.$key->total_refund.'</td>
+                  <td>'.$key->refund_status.'</td>
+                  <td>'.$key->confirm_by.'</td>
+                </tr>
+      ';
+    }
+
+   $output .= '
+          </table>
+        </div>
+
+      </div>
+   ';
+
+    echo $output;
   }
 
 

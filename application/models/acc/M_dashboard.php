@@ -11,4 +11,17 @@ class M_dashboard extends CI_Model{
     return $this->db->get();
   }
 
+  function pertanggal_laporan($from,$to)
+  {
+    return $this->db->query("SELECT * FROM tb_refund WHERE tgl_refund BETWEEN '$from' AND '$to '");
+    // $this->db->select('*');
+    // $this->db->from('tb_refund');
+    // $this->db->where('refund_status','Verify');
+    // $this->db->where('tgl_refund >=',$from);
+    // $this->db->where('tgl_refund <=',$to);
+    //
+    // return $this->db->get();
+
+  }
+
 }

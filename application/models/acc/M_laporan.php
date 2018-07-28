@@ -12,4 +12,12 @@ function getRefundsuccess()
   return $this->db->get();
 }
 
+function get_refund_kode($get_kode)
+{
+  $this->db->select('*');
+  $this->db->from('tb_refund');
+  $this->db->where('no_refund', $get_kode);
+  return $this->db->get();
+}
+
 }

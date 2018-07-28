@@ -38,11 +38,6 @@
                     <span class="badge bg-primary float-right"></span>
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link refund-process-link" id="refund-process" href="javascript:;">
-                    <i class="fa fa-envelope-o"></i> Refund Process
-                  </a>
-                </li>
               </ul>
             </div>
             <!-- /.card-body -->
@@ -65,17 +60,6 @@
                     Reschedule
                   </a>
                 </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="fa fa-circle-o text-warning"></i> Promotions
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="fa fa-circle-o text-primary"></i>
-                    Social
-                  </a>
-                </li>
               </ul>
             </div>
             <!-- /.card-body -->
@@ -86,42 +70,44 @@
         <div class="col-md-9">
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h3 class="card-title">Inbox</h3>
+              <h3 class="card-title"></h3>
 
-              <div class="card-tools">
-                <div class="input-group input-group-sm">
-                  <input type="text" class="form-control" placeholder="Search Mail">
-                  <div class="input-group-append">
-                    <div class="btn btn-primary">
-                      <i class="fa fa-search"></i>
+              <form class="form-tanggal" method="post">
+                <div class="row text-center">
+                  <div class="col-md-4 text-center">
+                    <div class="form-group">
+                      <label>Dari</label>
+                      <input type="date" name="dari" id="dari" class="form-control">
                     </div>
                   </div>
+                  <div class="col-md-4 text-center">
+                    <div class="form-group">
+                      <label>Sampai</label>
+                      <input type="date" name="sampai" id="sampai" class="form-control">
+                    </div>
+                  </div>
+                  <div class="col-md-4 text-center">
+                    <div class="form-group">
+
+                      <a href="javascript:;" class="btn btn-info btn-xs btn-cari"><i class="fa fa-search"></i></a>
+                    </div>
+                  </div>
+
                 </div>
+              </form>
+
+              <div class="card-tools">
+
               </div>
               <!-- /.card-tools -->
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
               <div class="mailbox-controls">
-                <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
-                </button>
-
-                <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
-                <div class="float-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
-                  </div>
-                  <!-- /.btn-group -->
-                </div>
-                <!-- /.float-right -->
-              </div>
-              <div id="show-refund">
 
               </div>
+              <div id="show-refund"></div>
+              <div id="tampil-pertanggal"></div>
               <!-- /.mail-box-messages -->
             </div>
             <!-- /.card-body -->
@@ -159,14 +145,14 @@
   </div>
   <script src="<?= base_url().'assets/js/jquery.js' ?>"></script>
   <script type="text/javascript">
-
+  $('#show-refund').show();
 
   $(document).ready(function() {
 
     $('#show-refund').load('<?= base_url('acc/dashboard/refundSuccess') ?>');
 
 
-    $('.nav-link').click(function(){
+    $(document).on('click','.refund-success-link',function(){
         var menu = $(this).attr('id');
 
         if(menu == "refund-success")
@@ -181,7 +167,20 @@
           $('.refund-success-link').removeClass('active');
           $('.refund-process-link').addClass('active');
         }
+    });
 
+    $(document).on('click', '.btn-cari', function(){
+      $('#show-refund').hide();
+      var data = $('.form-tanggal').serialize();
+
+      $.ajax({
+        type:'POST',
+        url:'<?= base_url('acc/dashboard/get_pertanggal') ?>',
+        data:data,
+        success:function(data){
+          $('#tampil-pertanggal').html(data);
+        }
+      });
 
     });
 

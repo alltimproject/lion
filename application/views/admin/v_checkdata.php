@@ -149,6 +149,7 @@ foreach ($checkdataid as $key) {
                   <input type="hidden" name="no_refund" value="<?= $no_refund ?>">
                   <input type="hidden" name="namalengkap" value="<?= $nama_depan.' '.$nama_belakang ?>">
                   <input type="hidden" name="email" value="<?= $email_user ?>">
+                  <input type="hidden" name="petugas" value="<?= $this->session->userdata('email') ?>">
                   <input type="submit" name="confirmrefund" class="btn btn-success" value="KONFIRMASI REFUND" onclick="return confirm('Anda yaking ingin Mengkonfirmasi tiket ini ?')" style="width:50%" >
                 </form>
               <?php }else if($jumlahdatarefund < $jumlahdatapessenger && $jumlahrefunddetail == $jumlahdetailpener ){ ?>
