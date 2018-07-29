@@ -1,19 +1,19 @@
+<div class="main main-raised">
+  <div class="section">
+    <div class="container">
 
-<ul class="nav nav-pills nav-pills-icons nav-pills-danger" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" href="#tab-refund" role="tab" data-toggle="tab">
-      <h5><i class="material-icons">dashboard</i> Refund</h5>
-    </a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#tab-reschedule" role="tab" data-toggle="tab">
-      <h5><i class="material-icons">schedule</i> Reschedule<h5>
-    </a>
-  </li>
-</ul>
-
-
-
+      <ul class="nav nav-pills nav-pills-icons nav-pills-danger" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" href="#tab-refund" role="tab" data-toggle="tab">
+            <h5><i class="material-icons">dashboard</i> Refund</h5>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#tab-reschedule" role="tab" data-toggle="tab">
+            <h5><i class="material-icons">schedule</i> Reschedule<h5>
+          </a>
+        </li>
+      </ul>
 
       <div class="tab-content">
         <div class="tab-pane active" id="tab-refund">
@@ -68,3 +68,6 @@
 
         </div>
       </div>
+    </div>
+  </div>
+</div>

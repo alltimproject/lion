@@ -2,7 +2,7 @@
 
   function buatKode($panjang)
   {
-    $karakter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    $karakter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $string = '';
 
     for($i = 0; $i < $panjang; $i++)

@@ -15,6 +15,7 @@
   <!-- <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css"> -->
   <!-- CSS Files -->
   <link rel="stylesheet" type="text/css" href="<?= base_url().'assets_user/font-awesome/css/font-awesome.min.css' ?>"/>
+  <link rel="stylesheet" type="text/css" href="<?= base_url().'assets_user/jquery-ui/jquery-ui.min.css' ?>"/>
   <link rel="stylesheet" type="text/css" href="<?= base_url().'assets_user/css/material-kit.css' ?>"  />
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link rel="stylesheet" type="text/css" href="<?= base_url().'assets_user/demo/demo.css' ?>"/>
@@ -29,7 +30,7 @@
   <nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
     <div class="container">
       <div class="navbar-translate">
-        <a class="navbar-brand" href="http://www.lionair.co.id/id" target="_blank">
+        <a class="navbar-brand" href="<?= base_url() ?>">
           <img src="<?= base_url().'images/bg03.png' ?>" width="150px" alt=""> </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -67,7 +68,7 @@
     <div class="container">
         <div class="row">
           <div class="col-md-6">
-            <h1><img src="<?= base_url().'images/bg03.png' ?>" width="250px" alt=""> </h1>
+            <h1><a href="http://www.lionair.co.id/id" target="_blank"><img src="<?= base_url().'images/bg03.png' ?>" width="250px" alt=""></a></h1>
             <h3>Refund and Reschedule System</h3>
             <br>
             <form class="form-search">
@@ -85,35 +86,7 @@
     </div>
   </div>
 
-
-
-  <div class="main main-raised">
-    <div class="section section-signup">
-      <div class="container">
-        <div id="data"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <i class="material-icons">clear</i>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="data-penerbangan"></div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-link">Nice Button</button>
-          <button type="button" class="btn btn-danger btn-link" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div id="data"></div>
 
   <footer class="footer" data-background-color="black">
     <div class="container">
@@ -130,6 +103,7 @@
   <script src="<?= base_url().'assets_user/js/core/popper.min.js' ?>" type="text/javascript"></script>
   <script src="<?= base_url().'assets_user/js/core/bootstrap-material-design.min.js' ?>" type="text/javascript"></script>
   <script src="<?= base_url().'assets_user/js/plugins/moment.min.js' ?>"></script>
+  <script src="<?= base_url().'assets_user/jquery-ui/jquery-ui.min.js' ?>"></script>
   <script src="<?= base_url().'assets_user/js/material-kit.js' ?>" type="text/javascript"></script>
   <script>
 
@@ -141,109 +115,37 @@
       }
     }
 
+    var load_content = function(href) {
+        $.get(`<?= base_url().'home/' ?>${href}`, function(content) {
+            $('#data').html(content);
+        });
+    }
+
     $(document).ready(function(){
-      $('#data').load('<?= base_url('home/term_condition') ?>');
+
+      $(window).on('hashchange', function() {
+          href = location.hash.substr(2);
+          load_content(href);
+      });
+
+      if (location.hash) {
+          href = location.hash.substr(2);
+          load_content(href);
+      } else {
+          location.hash = '#/home';
+      }
 
       $('.form-search').submit(function(){
-        var search = $('#search-booking').val();
-        var html = '';
+        var search = $('#search-booking').val().toUpperCase();
 
         if(search == '') {
           alert('Harap masukkan Kode Booking');
         } else {
-          $.ajax({
-            url: '<?= base_url('home/cari_booking/') ?>'+search,
-            type: 'GET',
-            dataType: 'JSON',
-            success: function(data){
-              if(data.jumlah == 0)
-              {
-                alert('Data tidak ditemukan');
-              } else {
-                // alert(data.refund.length);
-                  html += '<h3>Kode Booking : '+data.booking+'</h3><br/>';
-
-                  html += '<div class="card">';
-                      html += '<div class="card-header card-header-danger">';
-                          html += '<h4 class="card-title"><i class="fa fa-plane"></i> Penerbangan Detail </h4>';
-                      html += '</div>';
-                      html += '<div class="card-body">';
-                      $.each(data.penerbangan, function(key1, value1){
-                        html += '<div class="card">';
-                          html += '<div class="card-body">';
-                            html += '<h6 class="card-subtitle mb-2 text-muted">'+value1.no_penerbangan+' - '+value1.class+'</h6>';
-                            html += '<p class="card-text">'+value1.kota_asal+'<br/>'+value1.tgl_keberangkatan+'</p>';
-                            html += '<div class="line-home"></div>';
-                            html += '<p class="card-text">'+value1.kota_tujuan+'<br/>'+value1.tgl_tiba+'</p>';
-                          html += '</div>';
-                        html += '</div>';
-                      });
-                      html += '</div>';
-                  html += '</div></br>';
-
-                  html += '<div class="card">';
-                      html += '<div class="card-header card-header-danger">';
-                          html += '<h4 class="card-title"><i class="fa fa-users"></i> Pessenger Detail </h4>';
-                      html += '</div>';
-                      html += '<div class="card-body">';
-                      $.each(data.pessenger, function(k, v){
-                        html += '<div class="card">';
-                          html += '<div class="card-body">';
-                            html += '<h6 class="card-subtitle mb-2 text-muted">E-Ticket '+v.no_tiket+'</h6>';
-                            html += '<p class="card-text"><i class="fa fa-user"></i> '+v.nama_pessenger+' - '+v.tipe_pessenger+'</p>';
-                          html += '</div>';
-                        html += '</div>';
-                      });
-                      html += '</div>';
-                  html += '</div>';
-
-
-                html += '<div class="pull-right">';
-                if(data.refund == 0)
-                {
-                  html += '<a href="<?= base_url('home/form_refund/') ?>'+data.booking+'" id="refund" class="btn btn-md btn-danger"><strong>Refund</strong></a> ';
-                  html += '<a href="<?= base_url('home/form_reschedule/') ?>'+data.booking+'" id="reschedule" class="btn btn-md btn-info"><strong>Reschedule</strong></a> ';
-                } else {
-                  html += '<p><i>* Kode booking ini sedang dalam proses Refund. Mohon menunggu email Konfirmasi dari admin kami atau silahkan hubungi Lion Call Center.</i></p>';
-                }
-                html += '</div>';
-
-                $('.form-search')[0].reset();
-                $('#data').html(html);
-
-                $("html, body").animate({
-                  scrollTop: $('.main').offset().top
-                }, 1000);
-              }
-            }, error: function(){
-              alert('Data tidak ditemukan');
-            }
-          });
-        }
-        return false;
-      });
-
-      $(document).on('click', '#refund', function(){
-        var href = $(this).attr('href');
-        $.get(href, function(data){
-          $('#data').html(data);
-
+          location.hash = '#/booking_info/'+search;
           $("html, body").animate({
             scrollTop: $('.main').offset().top
           }, 1000);
-        });
-        return false;
-      });
-
-      $(document).on('click', '#reschedule', function(){
-        var href = $(this).attr('href');
-        $.get(href, function(data){
-          $('#data').html(data);
-
-          $("html, body").animate({
-            scrollTop: $('#data').offset().top
-          }, 1000);
-        });
+        }
         return false;
       });
     });

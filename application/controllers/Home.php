@@ -16,39 +16,86 @@ class Home extends CI_Controller{
     $this->load->view('user/v_home', $data);
   }
 
-  function term_condition()
+  function home()
   {
     $this->load->view('user/v_term_condition');
+  }
+
+  function booking_info($kd_booking)
+  {
+    $data['booking'] = $kd_booking;
+    $this->load->view('user/v_booking_info', $data);
+  }
+
+  function refund($kd_booking)
+  {
+    $data['booking'] = $kd_booking;
+    $this->load->view('user/v_form_refund', $data);
+  }
+
+  function reschedule($kd_booking)
+  {
+    $data['booking'] = $kd_booking;
+    $this->load->view('user/v_form_reschedule', $data);
   }
 
   function cari_booking($kd_booking)
   {
     $where = array(
-			'tb_booking.kd_booking' => strtoupper($kd_booking)
+			'tb_booking.kd_booking' => strtoupper($kd_booking),
+      'tb_booking.status' => 'Confirmed'
 		);
 
     $where2 = array(
-      'tb_booking.status' => 'Confirmed'
-    );
-
-    $where3 = array(
+      'tb_booking.kd_booking' => strtoupper($kd_booking),
+      'tb_booking.status' => 'Confirmed',
       'tb_refund.refund_status' => 'onproses'
     );
 
+    $where3 = array(
+      'tb_booking.kd_booking' => strtoupper($kd_booking),
+      'tb_booking.status' => 'Confirmed',
+      'tb_reschedul.reschedul_status' => 'onproses'
+    );
+
     $data['booking'] = strtoupper($kd_booking);
-    $data['pessenger'] = $this->m_user->cariPessenger($where, $where2)->result();
-    $data['penerbangan'] = $this->m_user->cariPenerbangan($where, $where2)->result();
-    $data['refund'] = $this->m_user->cariRefund($where, $where3)->num_rows();
-    $data['jumlah'] = $this->m_user->cariPessenger($where, $where2)->num_rows();
+
+    $data['pessenger'] = $this->m_user->cariPessenger($where)->result();
+    $data['jumlah'] = $this->m_user->cariPessenger($where)->num_rows();
+    $data['penerbangan'] = $this->m_user->cariPenerbangan($where)->result();
+
+    $data['refund'] = $this->m_user->cariRefund($where2)->num_rows();
+    $data['reschedule'] = $this->m_user->cariReschedule($where3)->num_rows();
+
     $data['verifikasi'] = sprintf("%03s", kodeVerifikasi(6));
 
     echo json_encode($data);
   }
 
-  function form_refund($kd_booking)
+
+
+  function json_penerbangan()
   {
-    $data['booking'] = $kd_booking;
-    $this->load->view('user/v_form_refund', $data);
+    $kota_asal = $this->input->post('kota_asal');
+    $kota_tujuan = $this->input->post('kota_tujuan');
+    $tgl_keberangkatan = $this->input->post('tgl_keberangkatan');
+    $kelas = $this->input->post('kelas');
+
+    if($kelas == 'Promo'){
+      $where2 = null;
+    } elseif($kelas == 'Ekonomi'){
+      $where2 = "class != 'Promo'";
+    } elseif($kelas == 'Bisnis'){
+      $where2 = "class = 'Bisnis'";
+    }
+
+    $where = array(
+      'kota_asal' => $kota_asal,
+      'kota_tujuan' => $kota_tujuan
+    );
+
+    $data['penerbangan'] = $this->m_user->cariNewPenerbangan($where, $tgl_keberangkatan, $where2)->result();
+    echo json_encode($data);
   }
 
   function proses_refund()
@@ -109,10 +156,58 @@ class Home extends CI_Controller{
     }
   }
 
-  function form_reschedule($kd_booking)
+  function proses_reschedule()
   {
-    $data['booking'] = $kd_booking;
-    $this->load->view('user/v_form_reschedule', $data);
+    $post = $this->input->post();
+    $tiket = array();
+    $penerbangan = array();
+
+    $kode = 'RS'.sprintf("%03s", buatKode(4));
+
+    $data = array(
+      'no_reschedule' => $kode,
+      'kd_booking' => $this->input->post('kd_booking'),
+      'total_reschedul' => $this->input->post('total_reschedule'),
+      'reschedul_name' => $this->input->post('reschedule_gelar').' '.$this->input->post('reschedule_first').' '.$this->input->post('reschedule_last'),
+      'reschedul_alamat' => $this->input->post('reschedule_alamat'),
+      'reschedul_telepon' => $this->input->post('reschedule_telepon'),
+      'reschedul_email' => $this->input->post('reschedule_email'),
+      'reschedul_status' => 'onproses'
+    );
+
+    foreach($post['no_tiket'] AS $key => $val)
+    {
+      $tiket[] = array(
+        'no_reschedule' => $kode,
+        'no_tiket' => $post['no_tiket'][$key]
+      );
+    }
+
+    foreach($post['no_penerbangan'] AS $key => $val)
+    {
+      $penerbangan[] = array(
+        'no_reschedule' => $kode,
+        'no_penerbangan' => $post['no_penerbangan'][$key],
+        'no_penerbangan_baru' => $post['no_penerbangan_baru'][$key]
+      );
+    }
+
+    $cek = $this->m_user->saveReschedule($data);
+    if($cek) {
+      $cek2 = $this->m_user->saveReschedulePessenger($tiket);
+      if($cek2) {
+        $cek3 = $this->m_user->saveRescheduleDetail($penerbangan);
+        if($cek3){
+          echo "berhasil";
+        } else {
+          echo "gagal";
+        }
+      } else {
+        echo "gagal";
+      }
+    } else {
+      echo "gagal";
+    }
   }
 
   function mailKode()
@@ -126,8 +221,8 @@ class Home extends CI_Controller{
     $config['smtp_host']  = 'ssl://smtp.gmail.com';
     $config['smtp_port']  = '465';
     $config['smtp_timeout'] = '5';
-    $config['smtp_user']  = 'lionairsystem@gmail.com';
-    $config['smtp_pass']  = 'lionais1234';
+    $config['smtp_user']  = 'viz.ndinq@gmail.com';
+    $config['smtp_pass']  = 'haviz06142';
     $config['mail_type']  = 'html';
     $config['charset']     = 'iso-8859-1';
     // $config['charset']     = 'utf-8';
