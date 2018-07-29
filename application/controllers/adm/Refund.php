@@ -386,8 +386,8 @@ class Refund extends CI_Controller{
                    <th>Total refund</th>
                    <th>Status refund</th>
                    <th>Konfirmasi oleh</th>
-                   <th>Opsi</th>
-                   <th></th>
+                
+
                  </tr>
       ';
       if($selectRefund->num_rows() > 0 ){
@@ -407,9 +407,7 @@ class Refund extends CI_Controller{
                       <td>Rp.'.number_format($key->total_refund) .'</td>
                       <td>'.$key->refund_status.'</td>
                       <td>'.$key->confirm_by.'</td>
-                      <td>
-                          <a href="javascript:;" data-nama_bank="'.$key->nama_bank.'" data-cabang="'.$key->cabang.'" data-norek="'.$key->no_rekening.'" data-nama_rek="'.$key->nama_rekening.'" class="btn btn-info btn-xs btn-detail"><i class="fa fa-info"></i></a>
-                       </td>
+
                     </tr>
           ';
         }
@@ -420,8 +418,6 @@ class Refund extends CI_Controller{
                     </tr>
         ';
       }
-
-
    $output .= '
           </table>
         </div>
@@ -565,7 +561,6 @@ class Refund extends CI_Controller{
                 </tr>
         ';
       }
-
       $output .= '
             </table>
           </div>

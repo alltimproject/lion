@@ -59,7 +59,7 @@
                 <h3 class="card-title p-3 ">Data Refund</h3>
                 <ul class="nav nav-pills ml-auto p-2">
                   <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Success</a></li>
-                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Proses</a></li>
+                  <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Cancel</a></li>
                 </ul>
               </div><!-- /.card-header -->
               <div class="card-body">
@@ -94,8 +94,6 @@
     refundsuccess();
     refundproses();
 
-
-
       function refundsuccess()
       {
 
@@ -125,17 +123,6 @@
             $('#refund-success-detail').show('slow');
         });
 
-        var data = $('.form-detail').serialize();
-
-        $.ajax({
-          type:"POST",
-          url:'<?= base_url('adm/refund/success_detail')  ?> ',
-          data:data,
-          success:function(data){
-
-            $('#refund-success-detail').html(data);
-          }
-        });
 
         $(document).on('click', '.btn-back', function(){
           $('#refund-success-detail').hide('slow', function(){
@@ -144,12 +131,6 @@
 
           refundsuccess();
         });
-
-
-
-
-
-
 
       });
 
