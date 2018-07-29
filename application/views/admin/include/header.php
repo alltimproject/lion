@@ -134,7 +134,7 @@
                 <i class="nav-icon fa fa-circle-o"></i>
                 <p>
                   Data Refund
-                  <span class="badge badge-info right">2</span>
+                  <span class="badge badge-info right"></span>
                 </p>
               </a>
             </li>
@@ -142,11 +142,11 @@
             <li class="nav-header">RESCHEDULE</li>
             <li class="nav-item">
               <li class="nav-item">
-                <a href="<?= base_url('adm/refund') ?>" class="nav-link">
+                <a href="<?= base_url('adm/reschedule') ?>" class="nav-link">
                   <i class="nav-icon fa fa-circle-o"></i>
                   <p>
                     Data Reschedule
-                    <span class="badge badge-info right">2</span>
+                    <span class="badge badge-info right"></span>
                   </p>
                 </a>
               </li>
