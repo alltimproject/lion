@@ -539,7 +539,6 @@ class M_refund extends CI_Model{
     $this->db->from('tb_refund_pessenger');
     $this->db->join('tb_pessenger', 'tb_pessenger.no_tiket = tb_refund_pessenger.no_tiket');
     $this->db->where('tb_refund_pessenger.no_refund', $no_refund);
-    //$this->db->where('tb_pessenger.kd_booking', $no_refund);
     return $this->db->get();
   }
 

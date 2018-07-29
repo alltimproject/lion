@@ -408,11 +408,7 @@ class Refund extends CI_Controller{
                       <td>'.$key->refund_status.'</td>
                       <td>'.$key->confirm_by.'</td>
                       <td>
-                        <form class="form-detail" method="post">
-                            <input type="hidden" id="'.$key->no_refund.'" name="no_refund" value="'.$key->no_refund.'">
-                            <input type="hidden" id="'.$key->refund_status.'" name="status_refund" value="'.$key->refund_status.'">
-                            <a href="javascript:;" class="btn btn-info btn-xs btn-detail"><i class="fa fa-info"></i></a>
-                        </form>
+                          <a href="javascript:;" data-nama_bank="'.$key->nama_bank.'" data-cabang="'.$key->cabang.'" data-norek="'.$key->no_rekening.'" data-nama_rek="'.$key->nama_rekening.'" class="btn btn-info btn-xs btn-detail"><i class="fa fa-info"></i></a>
                        </td>
                     </tr>
           ';
@@ -504,7 +500,8 @@ class Refund extends CI_Controller{
     $selectPenumpang   = $this->m_refund->refund_penumpang($no_refund);
     $selectPenerbangan = $this->m_refund->refund_penerbangan($no_refund);
 
-    $output = '
+    $output  = $no_refund;
+    $output .= '
     <div class="row">
 
       <div class="col-md-5">
