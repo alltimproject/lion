@@ -12,6 +12,9 @@ class Refund extends CI_Controller{
     //Codeigniter : Write Less Do More
     $this->load->model('admin/m_dashboard');
     $this->load->model('admin/m_tiket');
+    if($this->session->userdata('login') != 1){
+      redirect(base_url('admin'));
+    }
   }
 
   //get all refund
@@ -386,7 +389,7 @@ class Refund extends CI_Controller{
                    <th>Total refund</th>
                    <th>Status refund</th>
                    <th>Konfirmasi oleh</th>
-                
+
 
                  </tr>
       ';

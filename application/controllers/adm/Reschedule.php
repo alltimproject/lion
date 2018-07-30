@@ -7,6 +7,9 @@ class Reschedule extends CI_Controller{
   {
     parent::__construct();
     $this->load->model('admin/m_reschedule');
+    if($this->session->userdata('login') != 1){
+      redirect(base_url('admin'));
+    }
     //Codeigniter : Write Less Do More
   }
 

@@ -55,7 +55,7 @@
             <div class="card-body p-0">
               <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a href="javascript:;" id="reschedule" class="nav-link reschedule-link">
                     <i class="fa fa-circle-o text-danger"></i>
                     Reschedule
                   </a>
@@ -89,7 +89,8 @@
                   <div class="col-md-4 text-center">
                     <div class="form-group">
                       <a href="javascript:;" class="btn btn-info btn-xs btn-cari"><i class="fa fa-search"></i></a>
-                      <a href="<?= base_url('acc/dashboard')  ?> " class="btn btn-info btn-xs"><i class="fa fa-refresh"></i> </a> 
+                      <a href="javascript:;" class="btn btn-info btn-xs btn-cari-reschedule"><i class="fa fa-search"></i></a>
+                      <a href="<?= base_url('acc/dashboard')  ?> " class="btn btn-info btn-xs"><i class="fa fa-refresh"></i> </a>
                     </div>
                   </div>
 
@@ -108,30 +109,16 @@
               </div>
               <div id="show-refund"></div>
               <div id="tampil-pertanggal"></div>
+              <div id="tampil-pertanggal-reschedule"></div>
+
+              <!-- reshcedule -->
+              <div id="show-reschedule"></div>
               <!-- /.mail-box-messages -->
             </div>
             <!-- /.card-body -->
             <div class="card-footer p-0">
               <div class="mailbox-controls">
-                <!-- Check all button -->
-                <button type="button" class="btn btn-default btn-sm checkbox-toggle"><i class="fa fa-square-o"></i>
-                </button>
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-reply"></i></button>
-                  <button type="button" class="btn btn-default btn-sm"><i class="fa fa-share"></i></button>
-                </div>
-                <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-refresh"></i></button>
-                <div class="float-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
-                  </div>
-                  <!-- /.btn-group -->
-                </div>
-                <!-- /.float-right -->
+              
               </div>
             </div>
           </div>
@@ -145,31 +132,48 @@
   </div>
   <script src="<?= base_url().'assets/js/jquery.js' ?>"></script>
   <script type="text/javascript">
-  $('#show-refund').show();
-
   $(document).ready(function() {
+     $('.btn-cari-reschedule').hide();
+     $('#show-refund').show();
+     $('#show-reschedule').hide();
 
     $('#show-refund').load('<?= base_url('acc/dashboard/refundSuccess') ?>');
-
+    $('#show-reschedule').load('<?= base_url('acc/dashboard/reschedule') ?>');
 
     $(document).on('click','.refund-success-link',function(){
+        $('.form-tanggal')[0].reset();
+        $('#tampil-pertanggal-reschedule').hide();
+        $('.btn-cari').show();
+        $('.btn-cari-reschedule').hide();
         var menu = $(this).attr('id');
-
         if(menu == "refund-success")
         {
-          $('#show-refund').load('<?= base_url('acc/dashboard/refundSuccess')  ?>');
-
+          //$('#show-refund').load('<?= base_url('acc/dashboard/refundSuccess')  ?>');
+          $('#show-refund').show('slow', function(){
+            $('#show-reschedule').hide('slow');
+          });
           $('.refund-success-link').addClass('active');
           $('.refund-process-link').removeClass('active');
-        }else if(menu == "refund-process")
-        {
-          $('#show-refund').load('<?= base_url('acc/dashboard/refundProcess') ?>').show('slow');
-          $('.refund-success-link').removeClass('active');
-          $('.refund-process-link').addClass('active');
+          $('.reschedule-link').removeClass('active');
         }
     });
 
+    $(document).on('click', '.reschedule-link', function(){
+        $('.form-tanggal')[0].reset();
+        $('#tampil-pertanggal').hide('slow');
+        $('.btn-cari').hide();
+        $('.btn-cari-reschedule').show();
+        $('#show-reschedule').load('<?= base_url('acc/dashboard/reschedule') ?>');
+         $('#show-reschedule').show('slow', function(){
+           $('#show-refund').hide('slow');
+           $('.reschedule-link').addClass('active');
+           $('.refund-success-link').removeClass('active');
+         });
+    });
+
     $(document).on('click', '.btn-cari', function(){
+      $('#tampil-pertanggal').show('slow');
+      $('#tampil-pertanggal-reschedule').hide();
       $('#show-refund').hide();
       var data = $('.form-tanggal').serialize();
 
@@ -181,7 +185,21 @@
           $('#tampil-pertanggal').html(data);
         }
       });
+    });
 
+    $(document).on('click','.btn-cari-reschedule', function(){
+      $('#tampil-pertanggal-reschedule').show();
+      $('#show-reschedule').hide('slow');
+      var data = $('.form-tanggal').serialize();
+
+      $.ajax({
+        type:'POST',
+        url:'<?= base_url('acc/dashboard/get_pertanggal_reschedule') ?>',
+        data:data,
+        success:function(data){
+          $('#tampil-pertanggal-reschedule').html(data);
+        }
+      });
     });
 
 

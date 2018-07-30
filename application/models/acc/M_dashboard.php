@@ -16,4 +16,9 @@ class M_dashboard extends CI_Model{
     return $this->db->query("SELECT * FROM tb_refund WHERE tgl_refund BETWEEN '$from' AND '$to '");
   }
 
+  function pertanggal_laporan_reschedule($from, $to)
+  {
+    return $this->db->query("SELECT * FROM tb_reschedul WHERE tgl_reschedul BETWEEN '$from' AND '$to '");
+  }
+
 }

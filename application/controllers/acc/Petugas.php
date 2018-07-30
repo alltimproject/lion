@@ -7,6 +7,9 @@ class Petugas extends CI_Controller{
   {
     parent::__construct();
     $this->load->model('acc/m_petugas');
+    if($this->session->userdata('login') != 1 ){
+      redirect(base_url('admin') );
+    }
     //Codeigniter : Write Less Do More
   }
 

@@ -21,7 +21,6 @@
 
                 <select class="form-control" name="level">
                   <option value="">-- Hak Akses --</option>
-                  <option value="admin">ADMIN</option>
                   <option value="petugas">PETUGAS</option>
                   <option value="accounting">ACCOUNTING</option>
                 </select>

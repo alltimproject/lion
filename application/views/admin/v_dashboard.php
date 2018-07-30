@@ -98,13 +98,7 @@
                        <div class="card-header no-border" style="padding-top:40px; padding-bottom:20px;">
                          <div class="d-flex justify-content-between">
                            <h3 class="card-title"><i class="fa fa-search"></i> Data Rescedule</h3>
-                           <select class="form-control" name="kd_booking" style="width:40%" id="selectNorefund">
-                             <option value="" style="font-size:13%">-- Pilih No Rescedule -- </option>
-                            <!-- <?php foreach ($getnorefund as $key){
-                              echo "<option value='$key->no_refund'>$key->no_refund</option>";
-                            }
-                            ?> -->
-                           </select>
+
                          </div>
                        </div>
                        <div class="card-body">
@@ -149,7 +143,6 @@
                       <th style="font-size:60%;">Email</th>
                       <th style="font-size:60%;">Confirm by</th>
 
-                      <th style="font-size:60%;"></th>
                     </tr>
                   </thead>
                   <tbody id="show_data_refund_verify"></tbody>
@@ -182,7 +175,7 @@
 
         <div class="card animated fadeInUp">
              <div class="card-header border-transparent">
-               <h3 class="card-title card-success">Data Booking</h3>
+               <h3 class="card-title card-success">KODE BOOKING</h3>
 
                <div class="card-tools">
                  <button type="button" class="btn btn-tool" data-widget="collapse">
@@ -490,9 +483,6 @@
                       '<td style="font-size:70%;">'+value.kd_booking+'</td>'+
                       '<td style="font-size:70%;">'+value.refund_email+'</td>'+
                       '<td style="font-size:70%;">'+value.confirm_by+'</td>'+
-                      '<td>'+
-                        '<a class="btn btn-info btn-xs" href="javascript:;"><i class=""></i>  </a>'+
-                      '</td>'+
                       '</tr>';
             });
             jumlahdata = data.jumlahdataverify+' Data ';

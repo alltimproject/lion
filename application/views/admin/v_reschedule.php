@@ -34,19 +34,7 @@
           </div>
         </div>
 
-        <div class="col-lg-6 col-6 animated bounceInRight">
-          <!-- small box -->
-          <div class="small-box bg-warning">
-            <div class="inner">
-              <h3>1</h3>
-
-              <p>Refund Cancel</p>
-            </div>
-            <div class="icon">
-              <i class="ion ion-bag"></i>
-            </div>
-          </div>
-        </div>
+      
      </div>
 
      <div class="row">

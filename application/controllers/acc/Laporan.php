@@ -7,6 +7,7 @@ class Laporan extends CI_Controller{
   {
     parent::__construct();
     $this->load->library('pdf');
+    $this->load->model('admin/m_reschedule');
     $this->load->model('acc/m_dashboard');
     $this->load->model('acc/m_laporan');
     $this->load->helper('tanggal');
@@ -20,7 +21,7 @@ class Laporan extends CI_Controller{
        $pdf->AddPage();
        // setting jenis font yang akan digunakan
        $pdf->SetFont('Arial','B',16);
-       $pdf->Cell(190,7,'Laporan REFUND',0,1);
+       $pdf->Cell(190,7,'LAPORAN REFUND',0,1);
        $pdf->SetFont('Arial','B',7);
        $pdf->Cell(190,7,'TANGGAL '.date('Y-m-d'),0,1);
        $pdf->Image('images/bg03.png',230,10,50,20);
@@ -179,6 +180,166 @@ class Laporan extends CI_Controller{
                  $pdf->Cell(90,6,$row->confirm_by,1,1);
 
         }
+    $pdf->Output();
+  }
+
+  function lapReschedule()
+  {
+    $pdf = new FPDF('l','mm','A4');
+    // membuat halaman baru
+    $pdf->AddPage();
+    // setting jenis font yang akan digunakan
+    $pdf->SetFont('Arial','B',16);
+    $pdf->Cell(190,7,'LAPORAN RESCHEDULE',0,1);
+    $pdf->SetFont('Arial','B',7);
+    $pdf->Cell(190,7,'TANGGAL '.date('Y-m-d'),0,1);
+    $pdf->Image('images/bg03.png',230,10,50,20);
+
+    $pdf->Cell(10,7,'',0,1);
+    $pdf->SetFont('Arial','B',10);
+    $pdf->Cell(50,6,'NO. RESCHEDULE',1,0);
+    $pdf->Cell(85,6,'PENGAJU REFUND',1,0);
+    $pdf->Cell(60,6,'EMAIL',1,0);
+    $pdf->Cell(45,6,'TANGGAL RESCHEDULE',1,0);
+    $pdf->Cell(45,6,'TOTAL',1,1);
+
+    foreach($this->m_reschedule->get_reschedule()->result() as $key){
+      $pdf->SetFont('Arial','B',10);
+      $pdf->Cell(50,6,$key->no_reschedule,1,0);
+      $pdf->Cell(85,6,$key->reschedul_name,1,0);
+      $pdf->Cell(60,6,$key->reschedul_email,1,0);
+      $pdf->Cell(45,6,$key->tgl_reschedul,1,0);
+      $pdf->Cell(45,6,$key->total_reschedul,1,1);
+    }
+
+
+
+
+    $pdf->Output();
+  }
+
+  function lap_kode_reschedul($kode)
+  {
+    $selectData = $this->m_reschedule->get_reschedule_kode($kode);
+    $pdf = new FPDF('l','mm','A4');
+    // membuat halaman baru
+    $pdf->AddPage();
+    // setting jenis font yang akan digunakan
+    $pdf->SetFont('Arial','B',16);
+    $pdf->Cell(190,7,'NO. RESCHEDULE : '.$kode,0,1);
+    $pdf->SetFont('Arial','B',7);
+    $pdf->Cell(190,7,'TANGGAL '.date('Y-m-d'),0,1);
+    $pdf->Image('images/bg03.png',230,10,50,20);
+
+
+    foreach($this->m_reschedule->get_reschedule_kode($kode)->result() as $key ){
+
+      $pdf->ln(25);
+      $pdf->SetFont('Arial','B',10);
+      $pdf->Cell(50,7,'Email',1,0);
+      $pdf->Cell(70,7,': '.$key->reschedul_email,1,1);
+      $pdf->Cell(50,7,'Nama Lengkap',1,0);
+      $pdf->Cell(70,7,': '.$key->reschedul_name,1,1);
+      $pdf->Cell(50,7,'Alamat',1,0);
+      $pdf->Cell(70,7,': '.$key->reschedul_alamat,1,1);
+      $pdf->Cell(50,7,'Telepon',1,0);
+      $pdf->Cell(70,7,': '.$key->reschedul_telepon,1,1);
+
+      $pdf->Cell(10,7,'',0,1);
+      $pdf->SetFont('Arial','B',16);
+      $pdf->Cell(275,16,'NO. RESCHEDULE - 989888 ',1,1,'C');
+
+      $pdf->SetFont('Arial','B',10);
+      $pdf->Cell(138,10,'Tanggal Refund',1,0,'C');
+      $pdf->Cell(137,10,'2018-09-09',1,1,'C');
+      //isi
+      $pdf->Cell(138,10,'Total Refund',1,0,'C');
+      $pdf->Cell(137,10,'3000.000',1,1,'C');
+
+      $pdf->SetFont('Arial','B',16);
+      $pdf->Cell(275,16,'Pembayaran',1,1,'C');
+
+      $pdf->SetFont('Arial','B',10);
+      $pdf->Cell(65,10,'Nama Bank',1,0,'C');
+      $pdf->Cell(70,10,'Cabang',1,0,'C');
+        $pdf->Cell(70,10,'No. Rekening',1,0,'C');
+          $pdf->Cell(70,10,'Nama Rekening',1,1,'C');
+      //isi
+      $pdf->Cell(65,10,'BCA',1,0,'C');
+      $pdf->Cell(70,10,'PONDOK GEDE',1,0,'C');
+        $pdf->Cell(70,10,'687070687',1,0,'C');
+          $pdf->Cell(70,10,'WAHYU ALFARISI',1,1,'C');
+
+    }
+    $pdf->Output();
+  }
+
+  function pertanggal_reschedule()
+  {
+    $from =  $_GET['from'];
+    $to   =  $_GET['to'];
+
+    $pdf = new FPDF('L','mm','A4');
+    // membuat halaman baru
+    $pdf->AddPage();
+    // setting jenis font yang akan digunakan
+    $pdf->SetFont('Arial','B',16);
+    $pdf->Cell(190,7,'',0,1);
+    $pdf->SetFont('Arial','B',15);
+    $pdf->Cell(190,7,'LAPORAN TANGGAL '.tanggal_indo(date('Y-m-d', strtotime($from)) ).' - '.tanggal_indo(date('Y-m-d', strtotime($to)) ),0,1);
+    $pdf->Image('images/bg03.png',230,10,50,30);
+    $pdf->ln(15);
+
+       $pdf->Cell(10,7,'',0,1);
+       $pdf->SetFont('Arial','B',10);
+       $pdf->Cell(50,6,'NO. RESCHEDULE',1,0);
+       $pdf->Cell(85,6,'PENGAJU RESCHEDULE',1,0);
+       $pdf->Cell(60,6,'EMAIL',1,0);
+       $pdf->Cell(45,6,'TANGGAL RESHCEDULE',1,0);
+       $pdf->Cell(45,6,'TOTAL',1,1);
+
+       $pdf->SetFont('Arial','',10);
+
+       $pdf->Cell(50,36,'No reschedule',1,0,'C');
+       $pdf->Cell(85,36,'Nama Reschedule',1,0, 'C');
+       $pdf->Cell(60,6,'Email reschedule',1,0);
+       $pdf->Cell(45,6,'2018-09-09',1,0);
+       $pdf->Cell(45,6,number_format(800000),1,1);
+           $pdf->Cell(50,6,'',0,0);
+           $pdf->Cell(85,6,'',0,0);
+                 $pdf->SetFont('Arial','B',10);
+                 $pdf->Cell(60,6,'Nama Bank',1,0);
+                 $pdf->Cell(90,6,'BCA',1,1);
+           $pdf->Cell(50,6,'',0,0);
+           $pdf->Cell(85,6,'',0,0);
+                 $pdf->Cell(60,6,'Cabang',1,0);
+                 $pdf->Cell(90,6,'PPONDOK GEDE',1,1);
+           $pdf->Cell(50,6,'',0,0);
+           $pdf->Cell(85,6,'',0,0);
+                 $pdf->Cell(60,6,'No Rekening',1,0);
+                 $pdf->Cell(90,6,'NO_REKENING',1,1);
+           $pdf->Cell(50,6,'',0,0);
+           $pdf->Cell(85,6,'',0,0);
+                 $pdf->Cell(60,6,'Nama Rekening',1,0);
+                 $pdf->Cell(90,6,'WAHYU ALFARISI',1,1);
+           $pdf->Cell(50,6,'',0,0);
+           $pdf->Cell(85,6,'',0,0);
+                 $pdf->Cell(60,6,'Dikonfirmasi oleh',1,0);
+                 $pdf->Cell(90,6,'KONFIRM',1,1);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     $pdf->Output();
   }
 
