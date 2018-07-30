@@ -56,17 +56,29 @@
             html += '</div>';
 
 
-          html += '<div class="pull-right">';
-          if(data.refund == 0 && data.reschedule == 0)
+
+          if(data.refund.length == 0 && data.reschedule.length == 0)
           {
+            html += '<div class="pull-right">';
             html += '<a href="#/refund/'+data.booking+'" id="refund" class="btn btn-md btn-danger"><strong>Refund</strong></a> ';
             html += '<a href="#/reschedule/'+data.booking+'" id="reschedule" class="btn btn-md btn-info"><strong>Reschedule</strong></a> ';
-          } else if(data.refund == 1) {
+            html += '</div>';
+          } else if(data.refund.length == 1) {
+            html += '<div class="pull-right">';
             html += '<p><i>* Kode booking ini sedang dalam proses Refund. Mohon menunggu email Konfirmasi dari admin kami atau silahkan hubungi Lion Call Center.</i></p>';
-          } else if(data.reschedule == 1) {
-            html += '<p><i>* Kode booking ini sedang dalam proses Reschedule. Mohon menunggu email Konfirmasi dari admin kami atau silahkan hubungi Lion Call Center.</i></p>';
+            html += '</div>';
+          } else if(data.reschedule.length == 1) {
+            $.each(data.reschedule, function(k, v){
+              html += '<h3>Kode Pembayaran</h3>';
+              html += '<div class="input-group">';
+                html += '<input type="text" maxlength="10" placeholder="Masukkan Kode Pemayaran" class="form-control" id="kode_pembayaran">';
+                html += '<div class="input-group-append">';
+                  html += '<button type="button" class="btn btn-md btn-info" data-kd_booking="'+v.kd_booking+'" data-no_reschedule="'+v.no_reschedule+'" id="konfirmasi_pembayaran">Konfirmasi</button>';
+                html += '</div>';
+              html += '</div>';
+            });
           }
-          html += '</div>';
+
 
           $('.form-search')[0].reset();
           $('#content-info').html(html);
@@ -80,5 +92,25 @@
 
   $(document).ready(function(){
     load_info('<?= $booking ?>');
+
+    $(document).on('click', '#konfirmasi_pembayaran', function(){
+      var kd_pembayaran = $('#kode_pembayaran').val();
+      var kd_booking = $(this).data('kd_booking');
+      var no_reschedule = $(this).data('no_reschedule');
+
+      $.ajax({
+        url: '<?= base_url().'home/konfirmasi_pembayaran' ?>',
+        type: 'POST',
+        data: {
+          kd_booking: kd_booking,
+          no_reschedule: no_reschedule,
+          kd_pembayaran: kd_pembayaran
+        },
+        success: function(data){
+          alert(data);
+          load_info(kd_booking);
+        }
+      });
+    });
   });
 </script>

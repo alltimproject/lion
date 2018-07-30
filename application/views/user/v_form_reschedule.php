@@ -53,21 +53,83 @@
             </div>
           </fieldset>
           <fieldset>
-            <iframe src="license.txt"></iframe>
-            <input type="text" name="harga_lama" id="harga_lama">
-            <input type="text" name="harga_baru" id="harga_baru">
-            <input type="text" name="selisih" id="selisih">
-            <input type="text" name="denda" id="denda">
+            <input type="hidden" name="harga_lama" id="harga_lama">
+            <input type="hidden" name="harga_baru" id="harga_baru">
+            <input type="hidden" name="selisih" id="selisih">
+            <input type="hidden" name="denda" id="denda">
+            <input type="hidden" name="total_reschedule" id="total_reschedule">
 
-            <input type="text" name="total_reschedule" id="total_reschedule">
+            <h3 class="title">Detail Payment</h3>
+            <table class="table table-bordered table-hover">
+              <tr>
+                <th>Previous Payment</th>
+                <td align="right" id="payment_lama">0</td>
+              </tr>
+              <tr>
+                <th>Present Payment</th>
+                <td align="right" id="payment_baru">0</td>
+              </tr>
+              <tr>
+                <th>Balance Amount</th>
+                <td align="right" id="payment_selisih">0</td>
+              </tr>
+              <tr>
+                <th>Reschedule Fee</th>
+                <td align="right" id="payment_fee">0</td>
+              </tr>
+              <tr>
+                <th class="active">Total Payment</th>
+                <td align="right" id="payment_total">0</td>
+              </tr>
+            </table>
+
+            <h3 class="title">Payment Info</h3>
+            <div class="card">
+              <div class="card-body">
+                17961631913
+                <div class="pull-right">
+                  <img src="<?= base_url().'images/BCA.png' ?>" style="width: 50px; width: 50px;">
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                212361361777
+                <div class="pull-right">
+                  <img src="<?= base_url().'images/Mandiri.png' ?>" style="width: 50px; width: 50px;">
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                81376913113211
+                <div class="pull-right">
+                  <img src="<?= base_url().'images/BNI.png' ?>" style="width: 50px; width: 50px;">
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-body">
+                98136138671
+                <div class="pull-right">
+                  <img src="<?= base_url().'images/BRI.png' ?>" style="width: 50px; width: 50px;">
+                </div>
+              </div>
+            </div>
+
             <div class="form-check">
               <label class="form-check-label">
-                <input class="form-check-input" id="agreement" type="checkbox"> I agree
+                <input class="form-check-input" id="agreement" type="checkbox">
                 <span class="form-check-sign">
                   <span class="check"></span>
                 </span>
+                I agree the <a href="<?= base_url().'#/home' ?>" target="_blank">Term And Condition</a>
               </label>
             </div>
+            <p><i>* Apabila terdapat selisih atau denda, maka anda harus melakukan transfer ke salah satu rekening yang tertera di atas sebagai konfirmasi perubahan jadwal pada rute anda.</i></p>
 
             <div class="wizard-buttons">
                 <button type="button" class="btn btn-previous">Previous</button>
@@ -162,6 +224,7 @@
       type: 'POST',
       dataType: 'JSON',
       data: {
+        no_penerbangan: no_penerbangan,
         kota_asal: kota_asal,
         kota_tujuan,
         tgl_keberangkatan: tgl_keberangkatan,
@@ -180,7 +243,7 @@
                 html += '<p class="card-text">'+v.kota_asal+'<br/>'+v.tgl_keberangkatan+'</p>';
                 html += '<div class="line-home"></div>';
                 html += '<p class="card-text">'+v.kota_tujuan+'<br/>'+v.tgl_tiba+'</p>';
-                html += '<div class="pull-right"><button class="btn btn-sm btn-success" id="pilih-new" data-baru="'+v.no_penerbangan+'" data-lama="'+no_penerbangan+'" data-harga="'+v.harga_tiket+'">Pilih</button></div>'
+                html += '<div class="pull-right"><button class="btn btn-sm btn-success" id="pilih-new" data-baru="'+v.no_penerbangan+'" data-lama="'+no_penerbangan+'" data-harga="'+v.harga_tiket+'" data-kota_asal="'+v.kota_asal+'" data-kota_tujuan="'+v.kota_tujuan+'" data-kelas="'+v.class+'" data-tgl_keberangkatan="'+v.tgl_keberangkatan+'" data-tgl_tiba="'+v.tgl_tiba+'">Pilih</button></div>'
               html += '</div>';
             html += '</div>';
           });
@@ -218,9 +281,9 @@
                 html_tiket += '<div class="card-body">';
                   html_tiket += '<h4 class="card-title">E-Ticket '+v.no_tiket;
                   html_tiket += '<div class="pull-right">';
-                    html_tiket += '<label class="checkbox">';
+                    html_tiket += '<label class="checkbox hidden">';
                       html_tiket += '<span class="switch">';
-                      html_tiket += '<input type="checkbox" class="checkbox check-tiket" name="no_tiket[]" value="'+v.no_tiket+'">';
+                      html_tiket += '<input type="checkbox" checked class="checkbox check-tiket" name="no_tiket[]" value="'+v.no_tiket+'">';
                         html_tiket += '<span class="switch-container">';
                           html_tiket += '<span class="off"><i class="fa fa-close"></i></span>';
                           html_tiket += '<span class="mid"></span>';
@@ -299,6 +362,7 @@
           $('#pilih_tiket').html(html_tiket);
           $('#pilih_penerbangan').html(html_rute);
           $('#dialog-flight').html('');
+          $('.hidden').hide();
 
           // var coba = email_pic.substring(1, 5);
           var coba = email_pic.substr(1, 5);
@@ -311,6 +375,7 @@
 
     $('form fieldset:first').fadeIn('slow');
     $('.alert').hide();
+
     /* -------------------------------------------------------------------- */
 
 
@@ -390,9 +455,24 @@
               var total = jumlah_tiket*sum;
               var harga_lama = $('#harga_lama').val();
               var harga_baru = $('#harga_baru').val(total);
-              $('#selisih').val(total - harga_lama);
               var denda = $('#denda').val();
-              $('#total_reschedule').val(parseInt(total - harga_lama) + parseInt(denda));
+              var selisih = total - harga_lama
+              if(selisih < 0)
+              {
+                var selisih_bulat = 0;
+                var grand_total = parseInt(selisih_bulat) + parseInt(denda);
+              } else {
+                var selisih_bulat = selisih;
+                var grand_total = parseInt(selisih_bulat) + parseInt(denda);
+              }
+
+              $('#selisih').val(selisih);
+              $('#total_reschedule').val(grand_total);
+              $('#payment_lama').text('Rp. '+harga_lama);
+              $('#payment_baru').text('Rp. '+total);
+              $('#payment_selisih').text('Rp. '+selisih_bulat);
+              $('#payment_fee').text('Rp. '+denda);
+              $('#payment_total').text('Rp. '+grand_total);
             }
           break;
 
@@ -442,26 +522,29 @@
           D5 += 50000;
           harga_lama = parseInt(BF+ID+IWJR+D5);
 
-          if(kelas == 'Promo'){
-            if(denda == 0){
-              administrasi = true;
-            } else {
-              administrasi = false;
-            }
+
+          if(denda == 0){
+            administrasi = true;
+          } else {
+            administrasi = false;
           }
 
           html_newrute += '<div class="card">';
             html_newrute += '<div class="card-body">';
-              html_newrute += '<div class="form-group">';
+              html_newrute += '<div class="input-group">';
                 html_newrute += '<input type="text" placeholder="yyyy-mm-dd" class="form-control datepicker" id="new_date-'+no_penerbangan+'">';
+                html_newrute += '<div class="input-group-append">';
+                  html_newrute += '<button type="button" data-id="'+no_penerbangan+'" data-kota_asal="'+kota_asal+'" data-kota_tujuan="'+kota_tujuan+'" data-kelas="'+kelas+'" class="btn btn-md btn-info btn-round btn-fab" id="search-route-'+no_penerbangan+'"><i class="fa fa-search"></i></button>';
+                html_newrute += '</div>';
               html_newrute += '</div>';
-              html_newrute += '<div class="form-group">';
-                html_newrute += '<input type="text" class="form-control no_penerbangan_baru" name="no_penerbangan_baru[]" id="penerbangan-baru-'+no_penerbangan+'">';
-                html_newrute += '<input type="text" class="form-control cobacoba" id="harga-baru-'+no_penerbangan+'">';
+              html_newrute += '<div class="detail-panel" id="detail-panel-'+no_penerbangan+'">';
+                html_newrute += '<div class="card">';
+                  html_newrute += '<div class="card-body" id="detail-body-'+no_penerbangan+'">';
+                  html_newrute += '</div>';
+                html_newrute += '</div>';
               html_newrute += '</div>';
-              html_newrute += '<div class="pull-right">';
-                html_newrute += '<button type="button" data-id="'+no_penerbangan+'" data-kota_asal="'+kota_asal+'" data-kota_tujuan="'+kota_tujuan+'" data-kelas="'+kelas+'" class="btn btn-md btn-info" id="search-route-'+no_penerbangan+'">Cari</button>';
-              html_newrute += '</div>';
+              html_newrute += '<input type="hidden" class="no_penerbangan_baru" name="no_penerbangan_baru[]" id="penerbangan-baru-'+no_penerbangan+'">';
+              html_newrute += '<input type="hidden" class="cobacoba" id="harga-baru-'+no_penerbangan+'">';
             html_newrute += '</div>';
           html_newrute += '</div>';
 
@@ -490,6 +573,7 @@
         });
 
         $('#new_rute').html(html_newrute);
+        $('.detail-panel').hide();
 
         $('.datepicker').datepicker(
           { minDate: -0,
@@ -511,11 +595,24 @@
         var no_baru = $(this).data('baru');
         var no_lama = $(this).data('lama');
         var harga = $(this).data('harga');
+        var kelas = $(this).data('kelas');
+        var kota_asal = $(this).data('kota_asal');
+        var kota_tujuan = $(this).data('kota_tujuan');
+        var tgl_keberangkatan = $(this).data('tgl_keberangkatan');
+        var tgl_tiba = $(this).data('tgl_tiba');
+
+        var html = '';
+        html += '<h6 class="card-subtitle mb-2 text-muted">'+no_baru+' - '+kelas+'</h6>';
+        html += '<p class="card-text">'+kota_asal+'<br/>'+tgl_keberangkatan+'</p>';
+        html += '<div class="line-home"></div>';
+        html += '<p class="card-text">'+kota_tujuan+'<br/>'+tgl_tiba+'</p>';
 
 
         $('#penerbangan-baru-'+no_lama).val(no_baru);
-        $('#harga-baru-'+no_lama).val(harga).focus();
+        $('#harga-baru-'+no_lama).val(harga);
         $('#flight_'+no_lama).dialog('close');
+        $('#detail-panel-'+no_lama).show();
+        $('#detail-body-'+no_lama).html(html);
       });
 
       $('#kirim_kode').on('click', function(){

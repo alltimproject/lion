@@ -73,13 +73,13 @@
             <br>
             <form class="form-search">
               <div class="input-group has-white">
-              <input type="text" name="search-booking" id="search-booking" class="form-control" placeholder="Cari Kode Booking... " style="height: 50px; font-size: 30px;">
-              <div class="input-group-append">
-                <button type="submit" class="btn btn-white btn-raised btn-lg btn-fab btn-round">
-                    <i class="material-icons">search</i>
-                  </button>
+                <input type="text" name="search-booking" id="search-booking" class="form-control" placeholder="Cari Kode Booking... " style="height: 50px; font-size: 30px;">
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-white btn-raised btn-lg btn-fab btn-round">
+                      <i class="material-icons">search</i>
+                    </button>
+                </div>
               </div>
-            </div>
             </form>
           </div>
         </div>
@@ -92,10 +92,8 @@
     <div class="container">
       <div class="copyright float-left">
         &copy;
-        <script>
-          document.write(new Date().getFullYear())
-        </script>, made with <i class="material-icons">favorite</i> by
-        <a href="https://www.creative-tim.com" target="_blank">AllTimProject</a> for a better web.
+        <?= date('Y') ?>, made with <i class="material-icons">favorite</i> by
+        <a target="_blank" style="color: green;"><b>Erfi Niarsih - 30814146</b></a> for a better web.
       </div>
     </div>
   </footer>

@@ -87,13 +87,13 @@
               </tr>
             </table>
 
-            <iframe src="license.txt"></iframe>
             <div class="form-check">
               <label class="form-check-label">
-                <input class="form-check-input" id="agreement" type="checkbox"> I agree
+                <input class="form-check-input" id="agreement" type="checkbox">
                 <span class="form-check-sign">
                   <span class="check"></span>
                 </span>
+                  I agree the <a href="<?= base_url().'#/home' ?>" target="_blank">Term And Condition</a>
               </label>
             </div>
 
@@ -357,6 +357,8 @@
             $('#IWJR').text('Rp. '+jumlah_tiket*IWJR);
             $('#D5').text('Rp. '+jumlah_tiket*D5);
             $('#denda').text('Rp. '+jumlah_tiket*denda);
+            $('#total').text('Rp. '+jumlah_tiket*total);
+            $('#grand_total').text('Rp. '+jumlah_tiket*grand_total)
         });
 
         $('#batal').on('click', function(){

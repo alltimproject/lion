@@ -64,29 +64,134 @@ class Home extends CI_Controller{
     $data['jumlah'] = $this->m_user->cariPessenger($where)->num_rows();
     $data['penerbangan'] = $this->m_user->cariPenerbangan($where)->result();
 
-    $data['refund'] = $this->m_user->cariRefund($where2)->num_rows();
-    $data['reschedule'] = $this->m_user->cariReschedule($where3)->num_rows();
+    $data['refund'] = $this->m_user->cariRefund($where2)->result();
+    $data['reschedule'] = $this->m_user->cariReschedule($where3)->result();
 
     $data['verifikasi'] = sprintf("%03s", kodeVerifikasi(6));
 
     echo json_encode($data);
   }
 
+  function konfirmasi_pembayaran()
+  {
+    $kd_pembayaran = $this->input->post('kd_pembayaran');
+    $no_reschedule = $this->input->post('no_reschedule');
+    $kd_booking = $this->input->post('kd_booking');
 
+    $where = array(
+      'kd_pembayaran' => $kd_pembayaran
+    );
+
+    $where2 = array(
+      'no_reschedule' => $no_reschedule
+    );
+
+    $where3 = array(
+      'tb_booking.kd_booking' => $kd_booking
+    );
+
+    $where4 = array(
+      'tb_reschedul.no_reschedule' => $no_reschedule
+    );
+
+
+    $pembayaran = $this->m_user->cariPembayaran($where);
+    $reschedule = $this->m_user->cariReschedule($where2);
+
+    $pessenger = $this->m_user->cariPessenger($where3);
+    $detail = $this->m_user->cariPenerbangan($where3);
+    $resc_pessenger = $this->m_user->cariPessengerResc($where4);
+    $resc_detail = $this->m_user->cariPenerbanganResc($where4);
+
+    if($pembayaran->num_rows() == 1){
+      foreach($pembayaran->result() as $key)
+      {
+        $fetch_pembayaran = $key->kd_pembayaran;
+        $total_pembayaran = $key->total_pembayaran;
+      }
+
+      foreach($reschedule->result() as $key)
+      {
+        $total_reschedule = $key->total_reschedul;
+      }
+
+      if($kd_pembayaran == $fetch_pembayaran && $total_pembayaran == $total_reschedule){
+
+
+        // if($pessenger->num_rows() == $resc_pessenger->num_rows() && $detail->num_rows() == $resc_detail->num_rows())
+        // {
+
+          $data = array();
+          $data1 = array();
+          foreach($resc_detail->result() as $key)
+          {
+            $data1[] = $key->no_penerbangan;
+            $data[] = $key->no_penerbangan_baru;
+          }
+
+          for($i = 0; $i < count($data); $i++)
+          {
+            $kondisi = array(
+              'no_penerbangan' => $data1[$i]
+            );
+
+            $update = array(
+              'no_penerbangan' => $data[$i]
+            );
+
+            $this->m_user->updateRute($kondisi, $update);
+          }
+
+
+          $status = array(
+            'reschedul_status' => 'Verify'
+          );
+
+          $cek = $this->m_user->updateStatus($where2, $status);
+          if($cek){
+            echo "Berhasil melakukan Reschedule";
+          } else {
+            echo "Tidak berhasil melakukan Reschedule";
+          }
+        // }else if($pessenger->num_rows() != $resc_pessenger->num_rows() && $detail->num_rows() == $resc_detail->num_rows())
+        // {
+        //   echo "SPLIT1";
+        // } else if($pessenger->num_rows() == $resc_pessenger->num_rows() && $detail->num_rows() != $resc_detail->num_rows())
+        // {
+        //   echo "SPLIT2";
+        // }else if($pessenger->num_rows() != $resc_pessenger->num_rows() && $detail->num_rows() != $resc_detail->num_rows())
+        // {
+        //   echo "SPLIT3";
+        // }
+        // echo 'Pessenger :'.$pessenger->num_rows().' - '.$resc_pessenger->num_rows().' & Penerbangan :'.$detail->num_rows().' - '.$resc_detail->num_rows();
+
+      } else {
+        echo "Total pembayaran tidak sesuai dengan Total Reschedule";
+      }
+
+    }else {
+      echo "Kode Pembayaran tidak ditemukan";
+    }
+
+
+
+
+  }
 
   function json_penerbangan()
   {
+    $no_penerbangan = $this->input->post('no_penerbangan');
     $kota_asal = $this->input->post('kota_asal');
     $kota_tujuan = $this->input->post('kota_tujuan');
     $tgl_keberangkatan = $this->input->post('tgl_keberangkatan');
     $kelas = $this->input->post('kelas');
 
     if($kelas == 'Promo'){
-      $where2 = null;
+      $where2 = "no_penerbangan != '$no_penerbangan'";
     } elseif($kelas == 'Ekonomi'){
-      $where2 = "class != 'Promo'";
+      $where2 = "class != 'Promo' AND no_penerbangan != '$no_penerbangan'";
     } elseif($kelas == 'Bisnis'){
-      $where2 = "class = 'Bisnis'";
+      $where2 = "class = 'Bisnis' AND no_penerbangan != '$no_penerbangan'";
     }
 
     $where = array(
@@ -247,5 +352,7 @@ class Home extends CI_Controller{
       // show_error($this->email->print_debugger());
     }
   }
+
+
 
 }
