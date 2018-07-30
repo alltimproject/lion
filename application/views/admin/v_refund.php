@@ -9,7 +9,7 @@
 
           <div class="col-sm-6 animated fadeInUp">
 
-            <h1 class="m-0 text-dark">Refund</h1>
+            <h1 class="m-0 text-dark">Data Refund</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
 

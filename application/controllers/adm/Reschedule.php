@@ -6,6 +6,7 @@ class Reschedule extends CI_Controller{
   public function __construct()
   {
     parent::__construct();
+    $this->load->model('admin/m_reschedule');
     //Codeigniter : Write Less Do More
   }
 
@@ -13,7 +14,9 @@ class Reschedule extends CI_Controller{
   {
     $data['title'] = 'Reshcedule';
     $this->load->view('admin/include/header', $data);
-    $this->load->view('admin/v_reschedule');
+
+    $data['data_reschedule'] = $this->m_reschedule->get_reschedule();
+    $this->load->view('admin/v_reschedule', $data);
     $this->load->view('admin/include/footer');
   }
 
