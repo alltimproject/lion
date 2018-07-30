@@ -153,8 +153,8 @@ class Home extends CI_Controller{
                 'protocol'  => 'smtp',
                 'mailpath'  => '/usr/sbin/sendmail',
                 'smtp_host' => 'ssl://smtp.gmail.com',
-                'smtp_user' => 'lionairsystem@gmail.com',   // Ganti dengan email gmail Anda.
-                'smtp_pass' => 'lionais1234',             // Password gmail Anda.
+                'smtp_user' => 'kampungsiagabencana2018@gmail.com',   // Ganti dengan email gmail Anda.
+                'smtp_pass' => 'kampungsiaga2018',             // Password gmail Anda.
                 'smtp_port' => 465,
                 'smtp_keepalive' => TRUE,
                 'smtp_crypto' => 'SSL',
@@ -177,17 +177,19 @@ class Home extends CI_Controller{
           $output['kode'] = $kd_booking;
           $message = $this->load->view('mail/v_email_reschedule', $output,  TRUE);
           $this->email->message($message);
-
-          if($cek){
             $cek2 = $this->email->send();
-            if($cek2){
-              echo "Berhasil melakukan Reschedule";
-            } else {
-              echo "Tidak berhasil mengirim email";
-            }
-          } else {
-            echo "Tidak berhasil melakukan Reschedule";
-          }
+          // if($cek){
+          //
+          //   // if($cek2){
+          //   //   echo "Berhasil melakukan Reschedule";
+          //   // } else {
+          //   //   echo "Tidak berhasil mengirim email";
+          //   // }
+          // } else {
+          //   echo "Tidak berhasil melakukan Reschedule";
+          // }
+
+          
         // }else if($pessenger->num_rows() != $resc_pessenger->num_rows() && $detail->num_rows() == $resc_detail->num_rows())
         // {
         //   echo "SPLIT1";
@@ -358,8 +360,8 @@ class Home extends CI_Controller{
           'protocol'  => 'smtp',
           'mailpath'  => '/usr/sbin/sendmail',
           'smtp_host' => 'ssl://smtp.gmail.com',
-          'smtp_user' => 'lionairsystem@gmail.com',   // Ganti dengan email gmail Anda.
-          'smtp_pass' => 'lionais1234',             // Password gmail Anda.
+          'smtp_user' => 'kampungsiagabencana2018@gmail.com',   // Ganti dengan email gmail Anda.
+          'smtp_pass' => 'kampungsiaga2018',             // Password gmail Anda.
           'smtp_port' => 465,
           'smtp_keepalive' => TRUE,
           'smtp_crypto' => 'SSL',
