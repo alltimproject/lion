@@ -66,16 +66,16 @@
             <h3 class="title">Term and Condition</h3>
           </div>
           <ol>
-            <li>Reschedule tiket  hanya memperbolehkan melakukan perubahan tiket pada jadwal  keberangakatan penumpang berupa: jam, hari,bulan, tanggal dan tahun keberangkatan .  Dan tidak di perbolehkan   melakukan perubahan nama penumpang ataupun perubahan rute penerbangan.</li>
-            <li>Reschedule tiket melalui web ini hanya di perbolehkan bagi  penumpang yang melakukan reservasi  awal tiket melalui website  Lion Air yaitu di <a href="http://www.lionair.co.id/id">www.lionair.co.id</a></li>
+            <li>Reschedule tiket  hanya memperbolehkan melakukan perubahan tiket pada jadwal  keberangakatan penumpang berupa: jam, hari,bulan, tanggal dan tahun keberangkatan .  Dan tidak di perbolehkan   melakukan perubahan nama penumpang ataupun perubahan rute penerbangan.</li><br/>
+            <li>Reschedule tiket melalui web ini hanya di perbolehkan bagi  penumpang yang melakukan reservasi  awal tiket melalui website  Lion Air yaitu di <a href="http://www.lionair.co.id/id">www.lionair.co.id</a></li><br/>
             <li>Reschedule tiket dikenakan denda sesuai dengan tipe class, dan jarak antara waktu permintaan perubahan jadwal dengan jarak  jadwal awal tiket penumpang.
-              <h5><center><b>Denda Refund Tiket</b></center></h5>
+              <h5><center><b>Denda Reschedule Tiket</b></center></h5>
 
                 <table class="table table-bordered">
-                    <tr>
-                      <th><center>Kelas</center></th>
-                      <th><center>Waktu</center></th>
-                      <th><center>Cancel Fee / Denda</center></th>
+                    <tr style="background-color: red; color: white;">
+                      <th style="width: 30%"><center>Kelas</center></th>
+                      <th style="width: 30%"><center>Waktu</center></th>
+                      <th style="width: 40%"><center>Cancel Fee / Denda</center></th>
                     </tr>
                     <tr>
                       <td rowspan="3"><center>Bisnis</center></td>
@@ -128,8 +128,8 @@
                   <li>ID              : Pajak 10% dari Basic Fare</li>
                   <li>IWJR            : Iuran Wajib Pajak (Asuransi Jasa Raharja)</li>
                 </ul>
-            </li>
-            <li>Pembayaran denda reschedule  tiket online ini hanya bisa dilakukan dengan cara Transfer ke rekening Lion Air yang tertera pada Form Reschedule</li>
+            </li><br/>
+            <li>Pembayaran denda reschedule  tiket online ini hanya bisa dilakukan dengan cara Transfer ke rekening Lion Air yang tertera pada Form Reschedule</li><br/>
             <li>Konfirmasi  tiket baru dikirim melalui email yang di telah daftarkan saat melakukan reservasi awal tiket</li>
           </ol>
         </div>

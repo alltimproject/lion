@@ -69,12 +69,25 @@
             html += '</div>';
           } else if(data.reschedule.length == 1) {
             $.each(data.reschedule, function(k, v){
-              html += '<h3>Kode Pembayaran</h3>';
+              html += '<h3>Kode Pembayaran <b class="pull-right">Rp. '+v.total_reschedul+'</b></h3><br/>';
               html += '<div class="input-group">';
-                html += '<input type="text" maxlength="10" placeholder="Masukkan Kode Pemayaran" class="form-control" id="kode_pembayaran">';
+                html += '<input type="text" maxlength="20" placeholder="Masukkan Kode Pemayaran" class="form-control" id="kode_pembayaran">';
                 html += '<div class="input-group-append">';
                   html += '<button type="button" class="btn btn-md btn-info" data-kd_booking="'+v.kd_booking+'" data-no_reschedule="'+v.no_reschedule+'" id="konfirmasi_pembayaran">Konfirmasi</button>';
                 html += '</div>';
+              html += '</div>';
+
+              html += '<div class="card">';
+                html += '<div class="card-body">17961631913<div class="pull-right"><img src="<?= base_url().'images/BCA.png' ?>" style="width: 50px; width: 50px;"></div></div>';
+              html += '</div>';
+              html += '<div class="card">';
+                html += '<div class="card-body">212361361777<div class="pull-right"><img src="<?= base_url().'images/Mandiri.png' ?>" style="width: 50px; width: 50px;"></div></div>';
+              html += '</div>';
+              html += '<div class="card">';
+                html += '<div class="card-body">81376913113211<div class="pull-right"><img src="<?= base_url().'images/BNI.png' ?>" style="width: 50px; width: 50px;"></div></div>';
+              html += '</div>';
+              html += '<div class="card">';
+                html += '<div class="card-body">98136138671<div class="pull-right"><img src="<?= base_url().'images/BRI.png' ?>" style="width: 50px; width: 50px;"></div></div>';
               html += '</div>';
             });
           }

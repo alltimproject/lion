@@ -153,7 +153,7 @@ class M_user extends CI_Model{
   function updateStatus($where, $status)
   {
     $this->db->where($where);
-    return $this->db->update('tb_reschedul', $status);
+    $this->db->update('tb_reschedul', $status);
   }
 
 

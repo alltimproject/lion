@@ -94,7 +94,6 @@ class Home extends CI_Controller{
       'tb_reschedul.no_reschedule' => $no_reschedule
     );
 
-
     $pembayaran = $this->m_user->cariPembayaran($where);
     $reschedule = $this->m_user->cariReschedule($where2);
 
@@ -113,6 +112,7 @@ class Home extends CI_Controller{
       foreach($reschedule->result() as $key)
       {
         $total_reschedule = $key->total_reschedul;
+        $email = $key->email;
       }
 
       if($kd_pembayaran == $fetch_pembayaran && $total_pembayaran == $total_reschedule){
@@ -148,43 +148,43 @@ class Home extends CI_Controller{
           );
 
           $cek = $this->m_user->updateStatus($where2, $status);
+          $config = [
+                'useragent' => 'CodeIgniter',
+                'protocol'  => 'smtp',
+                'mailpath'  => '/usr/sbin/sendmail',
+                'smtp_host' => 'ssl://smtp.gmail.com',
+                'smtp_user' => 'lionairsystem@gmail.com',   // Ganti dengan email gmail Anda.
+                'smtp_pass' => 'lionais1234',             // Password gmail Anda.
+                'smtp_port' => 465,
+                'smtp_keepalive' => TRUE,
+                'smtp_crypto' => 'SSL',
+                'wordwrap'  => TRUE,
+                'wrapchars' => 80,
+                'mailtype'  => 'html',
+                'charset'   => 'utf-8',
+                'validate'  => TRUE,
+                'crlf'      => "\r\n",
+                'newline'   => "\r\n",
+            ];
+          $config['mailtype'] = 'html';
+
+          $this->email->initialize($config);
+          $this->email->from('lionsystem@gmail.com','Lion System');
+          $this->email->to($email);
+          $this->email->subject('Permintaan Reschedule');
+          $output['detail'] = $detail->result();
+          $output['tiket'] = $pessenger->result();
+          $output['kode'] = $kd_booking;
+          $message = $this->load->view('mail/v_email_reschedule', $output,  TRUE);
+          $this->email->message($message);
+
           if($cek){
-            // echo "Berhasil melakukan Reschedule";
-
-            $config = [
-     							'useragent' => 'CodeIgniter',
-     							'protocol'  => 'smtp',
-     							'mailpath'  => '/usr/sbin/sendmail',
-     							'smtp_host' => 'ssl://smtp.gmail.com',
-     							'smtp_user' => 'kampungsiagabencana2018@gmail.com',   // Ganti dengan email gmail Anda.
-     							'smtp_pass' => 'kampungsiaga2018',             // Password gmail Anda.
-     							'smtp_port' => 465,
-     							'smtp_keepalive' => TRUE,
-     							'smtp_crypto' => 'SSL',
-     							'wordwrap'  => TRUE,
-     							'wrapchars' => 80,
-     							'mailtype'  => 'html',
-     							'charset'   => 'utf-8',
-     							'validate'  => TRUE,
-     							'crlf'      => "\r\n",
-     							'newline'   => "\r\n",
-     					];
-            $config['mailtype'] = 'html';
-            $this->email->initialize($config);
-
-            $this->email->to('wahyualfarisi30@gmail.com');
-            $this->email->from('lionair','customer lion');
-            $this->email->subject('Permintaan Reschedule');
-
-            $output['detail'] = $detail->result();
-            $output['tiket'] = $pessenger->result();
-            $output['kode'] = $kd_booking;
-            $html = $this->load->view('mail/v_email_reschedule', $output, TRUE);
-            $this->email->message($html);
-            $this->email->send();
-
-
-
+            $cek2 = $this->email->send();
+            if($cek2){
+              echo "Berhasil melakukan Reschedule";
+            } else {
+              echo "Tidak berhasil mengirim email";
+            }
           } else {
             echo "Tidak berhasil melakukan Reschedule";
           }
@@ -207,9 +207,6 @@ class Home extends CI_Controller{
     }else {
       echo "Kode Pembayaran tidak ditemukan";
     }
-
-
-
 
   }
 
@@ -356,27 +353,33 @@ class Home extends CI_Controller{
     $kode = sprintf("%03s", kodeVerifikasi(6));
     $email_pic = $this->input->post('email_pic');
 
-    $config = array();
-    $config['protocol']   = 'smtp';
-    $config['smtp_host']  = 'ssl://smtp.gmail.com';
-    $config['smtp_port']  = '465';
-    $config['smtp_timeout'] = '5';
-    $config['smtp_user']  = 'viz.ndinq@gmail.com';
-    $config['smtp_pass']  = 'haviz06142';
-    $config['mail_type']  = 'html';
-    $config['charset']     = 'iso-8859-1';
-    // $config['charset']     = 'utf-8';
-    $config['wordwrap']    = TRUE;
-    // $config['newline']     = "\r\n";
+    $config = [
+          'useragent' => 'CodeIgniter',
+          'protocol'  => 'smtp',
+          'mailpath'  => '/usr/sbin/sendmail',
+          'smtp_host' => 'ssl://smtp.gmail.com',
+          'smtp_user' => 'lionairsystem@gmail.com',   // Ganti dengan email gmail Anda.
+          'smtp_pass' => 'lionais1234',             // Password gmail Anda.
+          'smtp_port' => 465,
+          'smtp_keepalive' => TRUE,
+          'smtp_crypto' => 'SSL',
+          'wordwrap'  => TRUE,
+          'wrapchars' => 80,
+          'mailtype'  => 'html',
+          'charset'   => 'utf-8',
+          'validate'  => TRUE,
+          'crlf'      => "\r\n",
+          'newline'   => "\r\n",
+      ];
+    $config['mailtype'] = 'html';
 
     $this->email->initialize($config);
-    $this->email->set_newline("\r\n");
-    $this->email->from('Lionair@group.com','Lion Air');
+    $this->email->from('lionsystem@gmail.com','Lion System');
     $this->email->to($email_pic);
-    $this->email->subject('Refund Verification Kode');
-    $message = '<p>Hi, Your Code Verification is <b>'.$kode.'</b></p>';
+    $this->email->subject('Lion Verification Code');
+    $output['kd_verifikasi'] = $kode;
+    $message = $this->load->view('user/v_email_verifikasi', $output,  TRUE);
     $this->email->message($message);
-
     $cek = $this->email->send();
 
     if($cek)
