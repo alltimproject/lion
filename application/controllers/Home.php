@@ -149,7 +149,42 @@ class Home extends CI_Controller{
 
           $cek = $this->m_user->updateStatus($where2, $status);
           if($cek){
-            echo "Berhasil melakukan Reschedule";
+            // echo "Berhasil melakukan Reschedule";
+
+            $config = [
+     							'useragent' => 'CodeIgniter',
+     							'protocol'  => 'smtp',
+     							'mailpath'  => '/usr/sbin/sendmail',
+     							'smtp_host' => 'ssl://smtp.gmail.com',
+     							'smtp_user' => 'kampungsiagabencana2018@gmail.com',   // Ganti dengan email gmail Anda.
+     							'smtp_pass' => 'kampungsiaga2018',             // Password gmail Anda.
+     							'smtp_port' => 465,
+     							'smtp_keepalive' => TRUE,
+     							'smtp_crypto' => 'SSL',
+     							'wordwrap'  => TRUE,
+     							'wrapchars' => 80,
+     							'mailtype'  => 'html',
+     							'charset'   => 'utf-8',
+     							'validate'  => TRUE,
+     							'crlf'      => "\r\n",
+     							'newline'   => "\r\n",
+     					];
+            $config['mailtype'] = 'html';
+            $this->email->initialize($config);
+
+            $this->email->to('wahyualfarisi30@gmail.com');
+            $this->email->from('lionair','customer lion');
+            $this->email->subject('Permintaan Reschedule');
+
+            $output['detail'] = $detail->result();
+            $output['tiket'] = $pessenger->result();
+            $output['kode'] = $kd_booking;
+            $html = $this->load->view('mail/v_email_reschedule', $output, TRUE);
+            $this->email->message($html);
+            $this->email->send();
+
+
+
           } else {
             echo "Tidak berhasil melakukan Reschedule";
           }
