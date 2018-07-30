@@ -17,7 +17,7 @@ class Payment extends CI_Controller{
 
   function bayar()
   {
-    $kode  = $this->input->post('bank').'/'.acakhuruf(5);
+    $kode  = $this->input->post('bank').'-'.acakhuruf(5);
     $total = $this->input->post('total_pembayaran');
     $bank  = $this->input->post('bank');
 
