@@ -247,28 +247,16 @@ class Laporan extends CI_Controller{
 
       $pdf->Cell(10,7,'',0,1);
       $pdf->SetFont('Arial','B',16);
-      $pdf->Cell(275,16,'NO. RESCHEDULE - 989888 ',1,1,'C');
+      $pdf->Cell(275,16,'NO. RESCHEDULE - '.$key->no_reschedule,1,1,'C');
 
       $pdf->SetFont('Arial','B',10);
       $pdf->Cell(138,10,'Tanggal Refund',1,0,'C');
-      $pdf->Cell(137,10,'2018-09-09',1,1,'C');
+      $pdf->Cell(137,10,$key->tgl_reschedul,1,1,'C');
       //isi
-      $pdf->Cell(138,10,'Total Refund',1,0,'C');
-      $pdf->Cell(137,10,'3000.000',1,1,'C');
+      $pdf->Cell(138,10,'Total Reschedule',1,0,'C');
+      $pdf->Cell(137,10,$key->total_reschedul,1,1,'C');
 
-      $pdf->SetFont('Arial','B',16);
-      $pdf->Cell(275,16,'Pembayaran',1,1,'C');
 
-      $pdf->SetFont('Arial','B',10);
-      $pdf->Cell(65,10,'Nama Bank',1,0,'C');
-      $pdf->Cell(70,10,'Cabang',1,0,'C');
-        $pdf->Cell(70,10,'No. Rekening',1,0,'C');
-          $pdf->Cell(70,10,'Nama Rekening',1,1,'C');
-      //isi
-      $pdf->Cell(65,10,'BCA',1,0,'C');
-      $pdf->Cell(70,10,'PONDOK GEDE',1,0,'C');
-        $pdf->Cell(70,10,'687070687',1,0,'C');
-          $pdf->Cell(70,10,'WAHYU ALFARISI',1,1,'C');
 
     }
     $pdf->Output();

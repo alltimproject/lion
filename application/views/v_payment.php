@@ -12,7 +12,7 @@
 
     <div class="container">
         <div class="card card-container" style="background-color:rgb(43, 62, 101, 0.2)">
-          <h3 class="text-center">INTERNET BANKING</h3>
+          <h3 class="text-center">ATM</h3>
             <p id="profile-name" class="profile-name-card"></p>
             <form class="form-payment" method="post">
                 <div class="form-group">
