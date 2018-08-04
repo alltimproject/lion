@@ -83,6 +83,13 @@ class M_dashboard extends CI_Model{
     return $this->db->get()->result();
   }
 
+  function getReschedule()
+  {
+    $this->db->select('*');
+    $this->db->from('tb_reschedul');
+    return $this->db->get();
+  }
+
 
 
 }

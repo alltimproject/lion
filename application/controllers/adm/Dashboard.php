@@ -23,7 +23,7 @@ class Dashboard extends CI_Controller{
    //$data['getkodebooking'] = $this->m_dashboard->getKodebooking();
 
    $data['getnorefund'] = $this->m_dashboard->getrefund();
-
+   $data['getresc']     = $this->m_dashboard->getReschedule();
    $this->load->view('admin/v_dashboard', $data);
    $this->load->view('admin/include/footer');
   }
@@ -75,14 +75,7 @@ class Dashboard extends CI_Controller{
     $data['jumlahdata'] = $this->m_refund->get_refund()->num_rows();
     echo json_encode($data);
   }
-  function get_refund_today()
-  {
-    $data = $this->m_refund->get_refund_today()->result();
-    $data['jumlahdata_today'] = $this->m_refund->get_refund_today()->num_rows();
-    echo json_encode($data);
-  }
-
-
+  
   function checkdata($norefund)
 
   {
