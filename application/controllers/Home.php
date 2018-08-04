@@ -153,8 +153,8 @@ class Home extends CI_Controller{
                 'protocol'  => 'smtp',
                 'mailpath'  => '/usr/sbin/sendmail',
                 'smtp_host' => 'ssl://smtp.gmail.com',
-                'smtp_user' => 'kampungsiagabencana2018@gmail.com',   // Ganti dengan email gmail Anda.
-                'smtp_pass' => 'kampungsiaga2018',             // Password gmail Anda.
+                'smtp_user' => 'crmlionairsystem@gmail.com',   // Ganti dengan email gmail Anda.
+                'smtp_pass' => 'erfi123123',             // Password gmail Anda.
                 'smtp_port' => 465,
                 'smtp_keepalive' => TRUE,
                 'smtp_crypto' => 'SSL',
@@ -189,7 +189,7 @@ class Home extends CI_Controller{
           //   echo "Tidak berhasil melakukan Reschedule";
           // }
 
-          
+
         // }else if($pessenger->num_rows() != $resc_pessenger->num_rows() && $detail->num_rows() == $resc_detail->num_rows())
         // {
         //   echo "SPLIT1";
@@ -360,8 +360,8 @@ class Home extends CI_Controller{
           'protocol'  => 'smtp',
           'mailpath'  => '/usr/sbin/sendmail',
           'smtp_host' => 'ssl://smtp.gmail.com',
-          'smtp_user' => 'kampungsiagabencana2018@gmail.com',   // Ganti dengan email gmail Anda.
-          'smtp_pass' => 'kampungsiaga2018',             // Password gmail Anda.
+          'smtp_user' => 'crmlionairsystem@gmail.com',   // Ganti dengan email gmail Anda.
+          'smtp_pass' => 'erfi123123',             // Password gmail Anda.
           'smtp_port' => 465,
           'smtp_keepalive' => TRUE,
           'smtp_crypto' => 'SSL',

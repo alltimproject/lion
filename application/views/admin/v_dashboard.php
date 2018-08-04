@@ -43,9 +43,9 @@
               <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-envelope-o"></i></span>
 
               <div class="info-box-content">
-                <span class="info-box-text">Rescedule Today's</span>
-                <span class="info-box-number">
-                  10 data On Prosess
+                <span class="info-box-text">Total Reschedule</span>
+                <span class="info-box-number"><?= $getresc->num_rows() ?>
+
 
                 </span>
               </div>
@@ -151,20 +151,29 @@
               <div class="col-md-6">
                 <div class="d-flex justify-content-between">
                 <h3 class="card-title card-success"><i class="fa fa-user"></i> Data Reschedule</h3>
-                <button class="btn btn-danger" id="">a</button>
+                <button class="btn btn-danger" id=""><?= $getresc->num_rows(); ?> Data</button>
                 </div>
                     <br>
                  <table class="table table-hover table-striped">
                   <thead>
                     <tr class="bg-danger">
                       <th style="font-size:60%;">Kode Booking</th>
-                      <th style="font-size:60%;">Tanggal Refund</th>
+                      <th style="font-size:60%;">Tanggal Reschedule</th>
                       <th style="font-size:60%;">Kode Booking Lama</th>
                       <th style="font-size:60%;">Email</th>
                       <th style="font-size:60%;">Status</th>
                     </tr>
                   </thead>
                   <tbody>
+                    <?php foreach($getresc->result() as $key):  ?>
+                    <tr>
+                      <td style="font-size:60%;"><?= $key->no_reschedule ?></td>
+                      <td style="font-size:60%;"><?= $key->tgl_reschedul ?></td>
+                      <td style="font-size:60%;"><?= $key->kd_booking ?></td>
+                      <td style="font-size:60%;"><?= $key->reschedul_email ?></td>
+                      <td style="font-size:60%;"><?= $key->reschedul_status ?></td>
+                    </tr>
+                  <?php endforeach; ?>
                   </tbody>
                  </table>
               </div>
@@ -294,12 +303,11 @@
   <script type="text/javascript">
   $(document).ready(function() {
     loadbooking();
-    loadalldatarefund();
     getrefundverify();
 
     setInterval(function(){
         loadbooking();
-        loadalldatarefund();
+
     }, 10000);
 
 
@@ -407,9 +415,7 @@
           }
         });
     });
-    //
-    // //---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    //
+
 
     // event onchange ----------------------------------------------------------
     $('#selectNorefund').change(function(){
@@ -434,7 +440,7 @@
                            '</td>'+
                            '<td style="font-size:70%">'+value.tgl_refund+'</td>'+
                            '<td style="font-size:70%">'+value.no_tiket+'</td>'+
-                         '<tr>';
+                          '<tr>';
             });
             btn_check += '<a href="<?= base_url() ?>adm/dashboard/checkdata/'+data.norefund+'" class="btn btn-info btn-xs item-refund" data="'+data.kd_booking+'">CHECK</a>';
             jumlahdata = data.jumlahdata;
@@ -450,19 +456,7 @@
       });
     });
     //-------- get all data refund ---------------------------------------------
-    function loadalldatarefund()
-    {
-      var jumlahdata_refund = '';
-      $.ajax({
-        type: 'ajax',
-        url: '<?= base_url() ?>adm/dashboard/get_refund',
-        dataType: 'json',
-        success: function(data){
-          jumlahdata_refund = data.jumlahdata+' data on proses';
-          $('#showalljumlahdata_refund').html(jumlahdata_refund);
-        }
-      });
-    }
+
     //--------- end all data refund --------------------------------------------
     function getrefundverify()
     {
@@ -495,13 +489,6 @@
       });
     }
     //--------------------------------------------------------------------------
-
-
-
-
-
-
-
 
 
 
