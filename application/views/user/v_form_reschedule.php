@@ -655,7 +655,7 @@
             success: function(data){
               if(data == 'berhasil')
               {
-                alert('Berhasil melakukan Reschedule. Silahkan lakukan Upload bukti pembayaran');
+                alert('Berhasil melakukan Reschedule. Silahkan input kode pembayaran');
                 location.hash = '#/booking_info/'+kd_booking;
               } else {
                 alert('Gagal melakukan Refund');

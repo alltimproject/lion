@@ -358,7 +358,8 @@
             $('#D5').text('Rp. '+jumlah_tiket*D5);
             $('#denda').text('Rp. '+jumlah_tiket*denda);
             $('#total').text('Rp. '+jumlah_tiket*total);
-            $('#grand_total').text('Rp. '+jumlah_tiket*grand_total)
+            $('#grand_total').text('Rp. '+jumlah_tiket*grand_total);
+            $('#total_refund').val(jumlah_tiket*grand_total);
         });
 
         $('#batal').on('click', function(){

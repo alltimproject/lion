@@ -120,8 +120,8 @@
           kd_pembayaran: kd_pembayaran
         },
         success: function(data){
-          alert(data);
           load_info(kd_booking);
+          alert(data);
         }
       });
     });

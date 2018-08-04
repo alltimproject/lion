@@ -16,7 +16,7 @@ class Laporan extends CI_Controller{
 
   function refundSuccess()
   {
-       $pdf = new FPDF('l','mm','A4');
+       $pdf = new FPDF();
        // membuat halaman baru
        $pdf->AddPage();
        // setting jenis font yang akan digunakan
@@ -66,7 +66,6 @@ class Laporan extends CI_Controller{
                      $pdf->Cell(60,6,'Dikonfirmasi oleh',1,0);
                      $pdf->Cell(90,6,$row->confirm_by,1,1);
        }
-
 
    $pdf->Output();
   }
