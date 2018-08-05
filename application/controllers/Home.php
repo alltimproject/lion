@@ -175,7 +175,7 @@ class Home extends CI_Controller{
           $output['detail'] = $detail->result();
           $output['tiket'] = $pessenger->result();
           $output['kode'] = $kd_booking;
-          $message = $this->load->view('mail/v_email_reschedule', $output,  TRUE);
+          $message = $this->load->view('mail/v_mail_reschedule', $output,  TRUE);
           $this->email->message($message);
           $cek2 = $this->email->send();
 

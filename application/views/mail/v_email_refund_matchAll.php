@@ -171,7 +171,7 @@
                           <p><b>Total Pengembalian : <?= $total_refund ?> </b></p>
                         </div>
 
-                        <a href="<?= $url ?>">cek tiket</a>
+
                       </td>
                     </tr>
                   </table>
